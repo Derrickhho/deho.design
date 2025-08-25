@@ -168,7 +168,7 @@ export const portfolioContent: FileSystemItem[] = [
               type: "list",
               items: [
                 { content: "Store", details: "derrickdoodles.com", url: "https://derrickdoodles.com" },
-                { content: "Instagram", details: "instagram.com/derrickdoodles", url: "https://instagram.com/derrickdoodles" }
+                { content: "Instagram", details: "instagram.com/derrick.doodles", url: "https://instagram.com/derrick.doodles" }
               ]
             }
           ]

@@ -51,17 +51,16 @@ function ThumbnailBlockRenderer({ block }: { block: any }) {
         {/* Image placeholder */}
         <div className="w-full h-40 bg-gray-200 rounded-lg flex items-center justify-center">
           {block.image && block.image !== "/placeholder.jpg" ? (
-            <Image 
+            <img 
               src={getImageUrl(block.image)} 
               alt="Project thumbnail" 
-              width={400}
-              height={160}
               className="w-full h-full object-cover rounded-lg"
               onLoad={() => console.log('✅ Image loaded successfully:', block.image)}
               onError={(e) => {
                 console.error('❌ Image failed to load:', block.image)
                 console.error('Error details:', e)
                 console.error('Attempted URL:', getImageUrl(block.image))
+                console.error('Current location:', typeof window !== 'undefined' ? window.location.href : 'server-side')
               }}
               style={{ border: '1px solid red' }} // Add visible border for debugging
             />

@@ -23,17 +23,16 @@ export function ThumbnailRenderer({ thumbnail }: ThumbnailRendererProps) {
         {/* Image placeholder */}
         <div className="w-full h-40 bg-gray-200 rounded-lg flex items-center justify-center" style={{ border: '2px solid blue' }}>
           {thumbnail.image && thumbnail.image !== "/placeholder.jpg" ? (
-            <Image 
+            <img 
               src={getImageUrl(thumbnail.image)} 
               alt="Project thumbnail" 
-              width={400}
-              height={160}
               className="w-full h-full object-cover rounded-lg"
               onLoad={() => console.log('✅ Image loaded successfully:', thumbnail.image)}
               onError={(e) => {
                 console.error('❌ Image failed to load:', thumbnail.image)
                 console.error('Error details:', e)
                 console.error('Attempted URL:', getImageUrl(thumbnail.image || ''))
+                console.error('Current location:', typeof window !== 'undefined' ? window.location.href : 'server-side')
               }}
               style={{ border: '1px solid red' }} // Add visible border for debugging
             />

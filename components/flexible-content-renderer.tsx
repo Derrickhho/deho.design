@@ -5,6 +5,7 @@ import { useTheme } from "../context/theme-context"
 import { Typography } from "./typography"
 import type { ContentData, ContentBlock, WorkExperienceItem, CurrentStatusItem, ContactItem } from "../types/content"
 import { getImageUrl } from "../lib/image-utils"
+import Image from "next/image"
 
 
 interface FlexibleContentRendererProps {
@@ -50,9 +51,11 @@ function ThumbnailBlockRenderer({ block }: { block: any }) {
         {/* Image placeholder */}
         <div className="w-full h-40 bg-gray-200 rounded-lg flex items-center justify-center">
           {block.image && block.image !== "/placeholder.jpg" ? (
-            <img 
+            <Image 
               src={getImageUrl(block.image)} 
               alt="Project thumbnail" 
+              width={400}
+              height={160}
               className="w-full h-full object-cover rounded-lg"
               onLoad={() => console.log('✅ Image loaded successfully:', block.image)}
               onError={(e) => {

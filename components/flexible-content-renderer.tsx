@@ -54,8 +54,13 @@ function ThumbnailBlockRenderer({ block }: { block: any }) {
               src={getImageUrl(block.image)} 
               alt="Project thumbnail" 
               className="w-full h-full object-cover rounded-lg"
-              onLoad={() => console.log('Image loaded:', block.image)}
-              onError={(e) => console.error('Image failed to load:', block.image, e)}
+              onLoad={() => console.log('✅ Image loaded successfully:', block.image)}
+              onError={(e) => {
+                console.error('❌ Image failed to load:', block.image)
+                console.error('Error details:', e)
+                console.error('Attempted URL:', getImageUrl(block.image))
+              }}
+              style={{ border: '1px solid red' }} // Add visible border for debugging
             />
           ) : (
             <div className="text-gray-400 text-sm">Image placeholder</div>

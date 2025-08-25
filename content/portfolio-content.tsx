@@ -184,7 +184,7 @@ export const portfolioContent: FileSystemItem[] = [
           blocks: [
             {
               type: "thumbnail",
-              image: "/taboo.png",
+              image: "/taboo.PNG",
               description: "Dabbled in print and made this game for learning cantonese."
             },
             {

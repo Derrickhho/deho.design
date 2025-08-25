@@ -31,8 +31,10 @@ export function LottieIcon({
   React.useEffect(() => {
     if (lottieRef.current) {
       if (isHovered) {
+        console.log('Lottie hover: playing animation')
         lottieRef.current.play()
       } else {
+        console.log('Lottie hover: stopping animation')
         lottieRef.current.stop()
         lottieRef.current.goToAndStop(0, true)
       }

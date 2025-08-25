@@ -67,18 +67,19 @@ export function FinderButton({
   }
 
   const handleMouseEnter = () => {
+    console.log('Finder button: mouse enter, setting hover to true')
     setIsHovered(true)
     onMouseEnter?.()
   }
 
   const handleMouseLeave = () => {
+    console.log('Finder button: mouse leave, setting hover to false')
     setIsHovered(false)
     onMouseLeave?.()
   }
 
   // Clone the icon to pass hover and selected states if it's a Lottie icon
-  const iconElement = React.isValidElement(icon) && 
-    (icon.type as any)?.name?.includes('Lottie')
+  const iconElement = React.isValidElement(icon) 
     ? React.cloneElement(icon as any, {
         isHovered,
         isSelected: iconSelected

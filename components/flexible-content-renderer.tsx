@@ -4,6 +4,7 @@ import type React from "react"
 import { useTheme } from "../context/theme-context"
 import { Typography } from "./typography"
 import type { ContentData, ContentBlock, WorkExperienceItem, CurrentStatusItem, ContactItem } from "../types/content"
+import { getImageUrl } from "../lib/image-utils"
 
 
 interface FlexibleContentRendererProps {
@@ -50,7 +51,7 @@ function ThumbnailBlockRenderer({ block }: { block: any }) {
         <div className="w-full h-40 bg-gray-200 rounded-lg flex items-center justify-center">
           {block.image && block.image !== "/placeholder.jpg" ? (
             <img 
-              src={block.image} 
+              src={getImageUrl(block.image)} 
               alt="Project thumbnail" 
               className="w-full h-full object-cover rounded-lg"
               onLoad={() => console.log('Image loaded:', block.image)}

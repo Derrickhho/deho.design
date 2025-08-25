@@ -3,6 +3,7 @@
 import type React from "react"
 import { useTheme } from "../context/theme-context"
 import { Typography } from "./typography"
+import { getImageUrl } from "../lib/image-utils"
 
 interface ThumbnailRendererProps {
   thumbnail: {
@@ -22,7 +23,7 @@ export function ThumbnailRenderer({ thumbnail }: ThumbnailRendererProps) {
         <div className="w-full h-40 bg-gray-200 rounded-lg flex items-center justify-center">
           {thumbnail.image && thumbnail.image !== "/placeholder.jpg" ? (
             <img 
-              src={thumbnail.image} 
+              src={getImageUrl(thumbnail.image)} 
               alt="Project thumbnail" 
               className="w-full h-full object-cover rounded-lg"
               onLoad={() => console.log('Image loaded:', thumbnail.image)}

@@ -62,7 +62,6 @@ function ThumbnailBlockRenderer({ block }: { block: any }) {
                 console.error('Attempted URL:', getImageUrl(block.image))
                 console.error('Current location:', typeof window !== 'undefined' ? window.location.href : 'server-side')
               }}
-              style={{ border: '1px solid red' }} // Add visible border for debugging
             />
           ) : (
             <div className="text-gray-400 text-sm">Image placeholder</div>

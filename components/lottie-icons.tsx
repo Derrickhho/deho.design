@@ -1,16 +1,31 @@
 "use client"
 
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { LottieIcon } from "./lottie-icon"
 
-// Import Lottie animation data directly
-import folderAnimation from "../data/lottie/Folder.json"
-import folderOpenAnimation from "../data/lottie/Folder Open.json"
-import userAnimation from "../data/lottie/User.json"
-import contactAnimation from "../data/lottie/Contact.json"
-import designAnimation from "../data/lottie/Design.json"
-import pictureAnimation from "../data/lottie/Picture.json"
-import translationAnimation from "../data/lottie/Translation.json"
+// Dynamic Lottie loader
+function useLottieAnimation(filename: string) {
+  const [animationData, setAnimationData] = useState<any>(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const loadAnimation = async () => {
+      try {
+        const response = await fetch(`/lottie/${filename}`)
+        const data = await response.json()
+        setAnimationData(data)
+      } catch (error) {
+        console.error(`Failed to load animation: ${filename}`, error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadAnimation()
+  }, [filename])
+
+  return { animationData, loading }
+}
 
 // Folder icon with actual Lottie animation
 export function FolderLottieIcon({ 
@@ -25,7 +40,12 @@ export function FolderLottieIcon({
   isSelected?: boolean;
 }) {
   // Use different animation based on selected state
-  const animationData = isSelected ? folderOpenAnimation : folderAnimation
+  const filename = isSelected ? "Folder Open.json" : "Folder.json"
+  const { animationData, loading } = useLottieAnimation(filename)
+  
+  if (loading || !animationData) {
+    return <div className={className} style={{ width: size, height: size }} />
+  }
   
   return (
     <LottieIcon
@@ -52,9 +72,15 @@ export function UserLottieIcon({
   isHovered?: boolean;
   isSelected?: boolean;
 }) {
+  const { animationData, loading } = useLottieAnimation("User.json")
+  
+  if (loading || !animationData) {
+    return <div className={className} style={{ width: size, height: size }} />
+  }
+  
   return (
     <LottieIcon
-      animationData={userAnimation}
+      animationData={animationData}
       className={className}
       size={size}
       loop={false}
@@ -77,9 +103,15 @@ export function ContactLottieIcon({
   isHovered?: boolean;
   isSelected?: boolean;
 }) {
+  const { animationData, loading } = useLottieAnimation("Contact.json")
+  
+  if (loading || !animationData) {
+    return <div className={className} style={{ width: size, height: size }} />
+  }
+  
   return (
     <LottieIcon
-      animationData={contactAnimation}
+      animationData={animationData}
       className={className}
       size={size}
       loop={false}
@@ -102,9 +134,15 @@ export function DesignLottieIcon({
   isHovered?: boolean;
   isSelected?: boolean;
 }) {
+  const { animationData, loading } = useLottieAnimation("Design.json")
+  
+  if (loading || !animationData) {
+    return <div className={className} style={{ width: size, height: size }} />
+  }
+  
   return (
     <LottieIcon
-      animationData={designAnimation}
+      animationData={animationData}
       className={className}
       size={size}
       loop={false}
@@ -127,9 +165,15 @@ export function PictureLottieIcon({
   isHovered?: boolean;
   isSelected?: boolean;
 }) {
+  const { animationData, loading } = useLottieAnimation("Picture.json")
+  
+  if (loading || !animationData) {
+    return <div className={className} style={{ width: size, height: size }} />
+  }
+  
   return (
     <LottieIcon
-      animationData={pictureAnimation}
+      animationData={animationData}
       className={className}
       size={size}
       loop={false}
@@ -152,9 +196,15 @@ export function TranslationLottieIcon({
   isHovered?: boolean;
   isSelected?: boolean;
 }) {
+  const { animationData, loading } = useLottieAnimation("Translation.json")
+  
+  if (loading || !animationData) {
+    return <div className={className} style={{ width: size, height: size }} />
+  }
+  
   return (
     <LottieIcon
-      animationData={translationAnimation}
+      animationData={animationData}
       className={className}
       size={size}
       loop={false}

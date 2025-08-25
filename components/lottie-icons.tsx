@@ -4,13 +4,13 @@ import React, { useState, useEffect } from "react"
 import { LottieIcon } from "./lottie-icon"
 
 // Import Lottie animation data directly for production
-import folderAnimation from "@/public/lottie/Folder.json"
-import folderOpenAnimation from "@/public/lottie/Folder Open.json"
-import userAnimation from "@/public/lottie/User.json"
-import contactAnimation from "@/public/lottie/Contact.json"
-import designAnimation from "@/public/lottie/Design.json"
-import pictureAnimation from "@/public/lottie/Picture.json"
-import translationAnimation from "@/public/lottie/Translation.json"
+import folderAnimation from "@/data/lottie/Folder.json"
+import folderOpenAnimation from "@/data/lottie/Folder Open.json"
+import userAnimation from "@/data/lottie/User.json"
+import contactAnimation from "@/data/lottie/Contact.json"
+import designAnimation from "@/data/lottie/Design.json"
+import pictureAnimation from "@/data/lottie/Picture.json"
+import translationAnimation from "@/data/lottie/Translation.json"
 
 // Animation data mapping
 const animationDataMap = {

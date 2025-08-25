@@ -25,6 +25,8 @@ export function ThumbnailRenderer({ thumbnail }: ThumbnailRendererProps) {
               src={thumbnail.image} 
               alt="Project thumbnail" 
               className="w-full h-full object-cover rounded-lg"
+              onLoad={() => console.log('Image loaded:', thumbnail.image)}
+              onError={(e) => console.error('Image failed to load:', thumbnail.image, e)}
             />
           ) : (
             <div className="text-gray-400 text-sm">Image placeholder</div>

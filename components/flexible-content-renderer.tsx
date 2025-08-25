@@ -53,6 +53,8 @@ function ThumbnailBlockRenderer({ block }: { block: any }) {
               src={block.image} 
               alt="Project thumbnail" 
               className="w-full h-full object-cover rounded-lg"
+              onLoad={() => console.log('Image loaded:', block.image)}
+              onError={(e) => console.error('Image failed to load:', block.image, e)}
             />
           ) : (
             <div className="text-gray-400 text-sm">Image placeholder</div>

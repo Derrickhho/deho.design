@@ -3,28 +3,30 @@
 import React, { useState, useEffect } from "react"
 import { LottieIcon } from "./lottie-icon"
 
-// Dynamic Lottie loader
+// Import Lottie animation data directly for production
+import folderAnimation from "../public/lottie/Folder.json"
+import folderOpenAnimation from "../public/lottie/Folder Open.json"
+import userAnimation from "../public/lottie/User.json"
+import contactAnimation from "../public/lottie/Contact.json"
+import designAnimation from "../public/lottie/Design.json"
+import pictureAnimation from "../public/lottie/Picture.json"
+import translationAnimation from "../public/lottie/Translation.json"
+
+// Animation data mapping
+const animationDataMap = {
+  "Folder.json": folderAnimation,
+  "Folder Open.json": folderOpenAnimation,
+  "User.json": userAnimation,
+  "Contact.json": contactAnimation,
+  "Design.json": designAnimation,
+  "Picture.json": pictureAnimation,
+  "Translation.json": translationAnimation,
+}
+
+// Simple hook to get animation data
 function useLottieAnimation(filename: string) {
-  const [animationData, setAnimationData] = useState<any>(null)
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const loadAnimation = async () => {
-      try {
-        const response = await fetch(`/lottie/${filename}`)
-        const data = await response.json()
-        setAnimationData(data)
-      } catch (error) {
-        console.error(`Failed to load animation: ${filename}`, error)
-      } finally {
-        setLoading(false)
-      }
-    }
-
-    loadAnimation()
-  }, [filename])
-
-  return { animationData, loading }
+  const animationData = animationDataMap[filename as keyof typeof animationDataMap]
+  return { animationData, loading: false }
 }
 
 // Folder icon with actual Lottie animation

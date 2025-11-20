@@ -103,7 +103,7 @@ export const portfolioContent: FileSystemItem[] = [
               type: "thumbnail",
               image: "/work/commonroom.png",
               dateRange: "2021 - 2023",
-              description: "Worked on a little bit of everything. Launched a product from zero to GA and learned a lot about B2B and the art customer obsession."
+              description: "Worked on a little bit of everything. Launched a product from zero to GA and learned a lot about B2B and the art of customer obsession."
             }
           ]
         }

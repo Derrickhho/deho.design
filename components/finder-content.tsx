@@ -45,7 +45,7 @@ export function FinderContent({ title, children, content, isEmpty = false, isTab
           </div>
         )}
         {title && (
-          <div className="border-t border-dashed border-gray-300 mb-4" style={{ borderStyle: 'dashed', borderWidth: '1px 0 0 0', borderImage: 'repeating-linear-gradient(to right, #d1d5db 0, #d1d5db 2px, transparent 2px, transparent 4px) 1' }}></div>
+          <div className="border-t border-dashed border-gray-300 mb-4" style={{ borderStyle: 'dashed', borderWidth: '1px 0 0 0', borderImage: 'repeating-linear-gradient(to right, #9ca3af 0, #9ca3af 2px, transparent 2px, transparent 4px) 1' }}></div>
         )}
         <div className="flex-1 min-w-0 overflow-hidden" style={{ color: theme.content.bodyText }}>
           <ErrorBoundary>

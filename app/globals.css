@@ -122,6 +122,22 @@
   body {
     @apply bg-background text-foreground;
   }
+  
+  /* Hover and clickdown states for clickable elements */
+  a, button, [role="button"], [data-clickable] {
+    @apply transition-transform duration-150 ease-out;
+    transform-origin: center;
+  }
+  
+  /* Hover: scale up to 102% */
+  a:hover, button:hover, [role="button"]:hover, [data-clickable]:hover {
+    transform: scale(1.01);
+  }
+  
+  /* Clickdown: scale down to 98% */
+  a:active, button:active, [role="button"]:active, [data-clickable]:active {
+    transform: scale(0.99);
+  }
 }
 
 /* Custom text selection colors */

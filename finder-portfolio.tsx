@@ -177,7 +177,7 @@ function FinderPortfolioContent() {
             <FinderHeader title="Derrick Ho" padding="py-3 px-0" />
             
             {/* Dotted divider */}
-            <div className="border-t border-dashed border-gray-300 my-6" style={{ borderStyle: 'dashed', borderWidth: '1px 0 0 0', borderImage: 'repeating-linear-gradient(to right, #d1d5db 0, #d1d5db 2px, transparent 2px, transparent 4px) 1' }}></div>
+            <div className="border-t border-dashed border-gray-300 my-6" style={{ borderStyle: 'dashed', borderWidth: '1px 0 0 0', borderImage: 'repeating-linear-gradient(to right, #9ca3af 0, #9ca3af 2px, transparent 2px, transparent 4px) 1' }}></div>
             
             {aboutMeContent && (
               <div className="space-y-6 mt-8" style={{ color: theme.content.bodyText }}>

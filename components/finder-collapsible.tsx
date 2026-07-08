@@ -1,7 +1,6 @@
 "use client"
 
 import React, { useState, useEffect, useRef } from "react"
-import { ChevronDown, ChevronRight } from "lucide-react"
 import { FinderButton } from "./finder-button"
 import { useTheme } from "../context/theme-context"
 import { useIsTablet } from "../hooks/use-mobile"
@@ -180,7 +179,7 @@ export function FinderCollapsible({
       <div className="p-3 max-h-full overflow-y-auto relative scrollbar-hide" ref={containerRef}>
         {/* Animated hover background with fade effect - below selected state */}
         <div 
-          className={`absolute left-3 right-3 h-10 rounded-md transition-all duration-200 ease-in-out pointer-events-none ${
+          className={`absolute left-3 right-3 h-10 rounded-md transition-opacity duration-200 ease-in-out pointer-events-none ${
             isVisible ? 'opacity-35' : 'opacity-0'
           }`}
           style={{ 

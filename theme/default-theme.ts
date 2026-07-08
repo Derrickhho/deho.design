@@ -131,7 +131,7 @@ export const darkTheme: FinderTheme = {
   folderButton: {
     default: {
       background: "transparent",
-      text: "#e0e0e0",
+      text: "#b3b3b3",
       hover: "#404040",
       active: "#505050",
     },
@@ -151,7 +151,7 @@ export const darkTheme: FinderTheme = {
   fileButton: {
     default: {
       background: "transparent",
-      text: "#e0e0e0",
+      text: "#b3b3b3",
       hover: "#404040",
       active: "#505050",
     },

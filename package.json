@@ -9,6 +9,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@central-icons-react/round-filled-radius-3-stroke-1.5": "^1.1.292",
+    "@central-icons-react/round-outlined-radius-3-stroke-1.5": "^1.1.292",
     "@hookform/resolvers": "^3.10.0",
     "@radix-ui/react-accordion": "1.2.2",
     "@radix-ui/react-alert-dialog": "1.1.4",

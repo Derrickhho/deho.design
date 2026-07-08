@@ -214,7 +214,10 @@ function FinderPortfolioContent() {
                     activeColumn={activeColumn}
                   />
                   <FinderContent
-                    title={currentFile?.content?.title}
+                    breadcrumbs={currentFile ? [
+                      ...(currentFolder ? [{ label: currentFolder.name, onClick: () => handleFolderClick(currentFolder.id) }] : []),
+                      { label: currentFile.name, onClick: () => handleFileClick(currentFile.id) },
+                    ] : undefined}
                     content={currentFile?.content}
                     isEmpty={!currentFile}
                     isTablet={true}
@@ -264,7 +267,10 @@ function FinderPortfolioContent() {
 
                   {/* Right Column - File Content */}
                   <FinderContent
-                    title={activeColumn === 'file' ? currentFile?.content?.title : undefined}
+                    breadcrumbs={activeColumn === 'file' && currentFile ? [
+                      ...(currentFolder ? [{ label: currentFolder.name, onClick: () => handleFolderClick(currentFolder.id) }] : []),
+                      { label: currentFile.name, onClick: () => handleFileClick(currentFile.id) },
+                    ] : undefined}
                     content={activeColumn === 'file' ? currentFile?.content : undefined}
                     isEmpty={activeColumn === 'folder' || !currentFile}
                   />

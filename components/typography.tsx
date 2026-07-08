@@ -10,9 +10,10 @@ interface TypographyProps {
   color?: string
   className?: string
   as?: keyof JSX.IntrinsicElements
+  fontWeight?: React.CSSProperties["fontWeight"]
 }
 
-export function Typography({ children, variant, color, className = "", as }: TypographyProps) {
+export function Typography({ children, variant, color, className = "", as, fontWeight }: TypographyProps) {
   const { theme } = useTheme()
   const typographyStyle = theme.typography[variant]
 
@@ -20,7 +21,7 @@ export function Typography({ children, variant, color, className = "", as }: Typ
 
   const styles: React.CSSProperties = {
     fontSize: typographyStyle.fontSize,
-    fontWeight: typographyStyle.fontWeight,
+    fontWeight: fontWeight ?? typographyStyle.fontWeight,
     lineHeight: typographyStyle.lineHeight,
     letterSpacing: typographyStyle.letterSpacing,
     color: color || "inherit",

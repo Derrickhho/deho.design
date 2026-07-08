@@ -14,10 +14,9 @@ interface FinderColumnProps {
 export function FinderColumn({ children, width = "w-60", showBorder = false, selectedIndex, variant = "folder" }: FinderColumnProps) {
   const { theme } = useTheme()
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
+  const [pressedIndex, setPressedIndex] = useState<number | null>(null)
   const [hoverPosition, setHoverPosition] = useState(0)
   const [isVisible, setIsVisible] = useState(false)
-  const [shouldAnimate, setShouldAnimate] = useState(false)
-  const previousPositionRef = useRef<number | null>(null)
   const containerRef = useRef<HTMLDivElement>(null)
 
   const styles = {
@@ -87,35 +86,17 @@ export function FinderColumn({ children, width = "w-60", showBorder = false, sel
     }
   }, [hoveredIndex])
 
-  // Update animation state when selectedIndex changes
-  useEffect(() => {
-    if (selectedIndex !== undefined && selectedIndex !== null) {
-      // Check if we had a valid previous position to animate from
-      const hadValidPreviousPosition = previousPositionRef.current !== null && previousPositionRef.current > 0
-      
-      if (hadValidPreviousPosition) {
-        // Animate from previous position
-        setShouldAnimate(true)
-      } else {
-        // First selection - no animation
-        setShouldAnimate(false)
-      }
-      
-      // Store current position for next time
-      previousPositionRef.current = selectedPosition
-    } else {
-      // No selection - reset everything
-      setShouldAnimate(false)
-      previousPositionRef.current = null
-    }
-  }, [selectedIndex, selectedPosition])
-
   // Clone children and add hover handlers
   const childrenWithHover = React.Children.map(children, (child, index) => {
     if (React.isValidElement(child)) {
       return React.cloneElement(child as React.ReactElement<any>, {
         onMouseEnter: () => setHoveredIndex(index),
-        onMouseLeave: () => setHoveredIndex(null),
+        onMouseLeave: () => {
+          setHoveredIndex(null)
+          setPressedIndex(null)
+        },
+        onMouseDown: () => setPressedIndex(index),
+        onMouseUp: () => setPressedIndex(null),
         key: index,
       })
     }
@@ -127,8 +108,8 @@ export function FinderColumn({ children, width = "w-60", showBorder = false, sel
       <div className="p-3 space-y-0.5 relative w-full" ref={containerRef}>
         {/* Animated hover background with fade effect - below selected state */}
         <div 
-          className={`absolute left-3 right-3 h-10 rounded-md transition-all duration-200 ease-in-out pointer-events-none ${
-            isVisible ? 'opacity-35' : 'opacity-0'
+          className={`absolute left-3 right-3 h-10 rounded-md transition-opacity duration-200 ease-in-out pointer-events-none ${
+            isVisible ? (pressedIndex !== null && pressedIndex === hoveredIndex ? 'opacity-50' : 'opacity-35') : 'opacity-0'
           }`}
           style={{ 
             backgroundColor: theme.folderButton.default.hover,
@@ -137,12 +118,10 @@ export function FinderColumn({ children, width = "w-60", showBorder = false, sel
           }}
         />
         
-        {/* Selected background - only animate when moving from valid previous position */}
+        {/* Selected background */}
         {selectedIndex !== undefined && selectedIndex !== null && (
           <div 
-            className={`absolute left-3 right-3 h-10 rounded-md pointer-events-none ${
-              shouldAnimate ? 'transition-all duration-200 ease-in-out' : ''
-            }`}
+            className="absolute left-3 right-3 h-10 rounded-md pointer-events-none"
             style={{ 
               backgroundColor: selectedBackground,
               top: selectedPosition,

@@ -1,21 +1,27 @@
 "use client"
 
-import type React from "react"
+import React from "react"
 import { useTheme } from "../context/theme-context"
-import { Heading2, Body } from "./typography"
+import { Body } from "./typography"
 import { FlexibleContentRenderer } from "./flexible-content-renderer"
 import { ErrorBoundary } from "./error-boundary"
+import { AppLink } from "./app-link"
 import type { ContentData } from "../types/content"
 
+export interface Breadcrumb {
+  label: string
+  onClick?: () => void
+}
+
 interface FinderContentProps {
-  title?: string
+  breadcrumbs?: Breadcrumb[]
   children?: React.ReactNode
   content?: ContentData
   isEmpty?: boolean
   isTablet?: boolean
 }
 
-export function FinderContent({ title, children, content, isEmpty = false, isTablet = false }: FinderContentProps) {
+export function FinderContent({ breadcrumbs, children, content, isEmpty = false, isTablet = false }: FinderContentProps) {
   const { theme } = useTheme()
 
   const styles = {
@@ -35,27 +41,40 @@ export function FinderContent({ title, children, content, isEmpty = false, isTab
   }
 
   return (
-    <div className="flex-1" style={styles}>
-      <div className="p-3 overflow-y-auto h-full max-h-full flex flex-col scrollbar-hide">
-        {title && (
-          <div className="h-10 mb-2 flex items-center">
-            <Heading2 color={theme.content.titleText} className="mb-0">
-              {title}
-            </Heading2>
-          </div>
-        )}
-        {title && (
-          <div className="border-t border-dashed border-gray-300 mb-4" style={{ borderStyle: 'dashed', borderWidth: '1px 0 0 0', borderImage: 'repeating-linear-gradient(to right, #9ca3af 0, #9ca3af 2px, transparent 2px, transparent 4px) 1' }}></div>
-        )}
-        <div className="flex-1 min-w-0 overflow-hidden" style={{ color: theme.content.bodyText }}>
-          <ErrorBoundary>
-            {content ? (
-              <FlexibleContentRenderer content={content} />
-            ) : (
-              children
-            )}
-          </ErrorBoundary>
+    <div className="flex-1 flex flex-col h-full max-h-full overflow-hidden" style={styles}>
+      {breadcrumbs && breadcrumbs.length > 0 && (
+        <div
+          className="h-10 flex items-center px-3 flex-shrink-0"
+          style={{ borderBottom: `1px solid ${theme.column.border}` }}
+        >
+          {breadcrumbs.map((crumb, i) => (
+            <React.Fragment key={i}>
+              {i > 0 && (
+                <span className="mx-1 text-xs leading-none" style={{ color: theme.content.mutedText }}>
+                  /
+                </span>
+              )}
+              {crumb.onClick ? (
+                <AppLink onClick={crumb.onClick} variant="white" className="text-xs">
+                  {crumb.label}
+                </AppLink>
+              ) : (
+                <span className="text-xs font-medium leading-none text-white">
+                  {crumb.label}
+                </span>
+              )}
+            </React.Fragment>
+          ))}
         </div>
+      )}
+      <div className="p-3 overflow-y-auto flex-1 min-w-0 scrollbar-hide" style={{ color: theme.content.bodyText }}>
+        <ErrorBoundary>
+          {content ? (
+            <FlexibleContentRenderer content={content} />
+          ) : (
+            children
+          )}
+        </ErrorBoundary>
       </div>
     </div>
   )

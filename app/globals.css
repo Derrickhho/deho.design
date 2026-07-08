@@ -123,32 +123,17 @@
     @apply bg-background text-foreground;
   }
   
-  /* Hover and clickdown states for clickable elements */
-  a, button, [role="button"], [data-clickable] {
-    @apply transition-transform duration-150 ease-out;
-    transform-origin: center;
-  }
-  
-  /* Hover: scale up to 102% */
-  a:hover, button:hover, [role="button"]:hover, [data-clickable]:hover {
-    transform: scale(1.01);
-  }
-  
-  /* Clickdown: scale down to 98% */
-  a:active, button:active, [role="button"]:active, [data-clickable]:active {
-    transform: scale(0.99);
-  }
 }
 
-/* Custom text selection colors */
+/* Custom text selection colors - match the selected row blue */
 ::selection {
-  background-color: oklch(0.92 0.08 85);
-  color: oklch(0.145 0 0);
+  background-color: #007acc;
+  color: #ffffff;
 }
 
 ::-moz-selection {
-  background-color: oklch(0.92 0.08 85);
-  color: oklch(0.145 0 0);
+  background-color: #007acc;
+  color: #ffffff;
 }
 
 /* Hide scrollbars but keep scrolling functionality */

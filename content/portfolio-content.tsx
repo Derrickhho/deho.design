@@ -8,7 +8,7 @@ import {
   TranslationLottieIcon,
   MailLottieIcon,
   FileLottieIcon
-} from "../components/lottie-icons"
+} from "../components/central-icons"
 
 
 
@@ -17,20 +17,20 @@ export const portfolioContent: FileSystemItem[] = [
     id: "info",
     name: "Info",
     type: "folder",
-    icon: <FolderLottieIcon size={20} />,
-    selectedIcon: <FolderLottieIcon size={20} />,
+    icon: <FolderLottieIcon size={16} />,
+    selectedIcon: <FolderLottieIcon size={16} />,
     children: [
       {
         id: "about-me",
         name: "About me",
         type: "file",
-        icon: <UserLottieIcon size={20} />,
+        icon: <UserLottieIcon size={16} />,
         content: {
           title: "It's me!",
           blocks: [
             {
               type: "paragraph",
-              content: "deho is short for Derrick Ho - I really like seeing ideas come to life. Previously, I've worked on the sharing experience at [Dropbox](https://dropbox.com) (and Dropbox Paper RIP), led the onboarding experience at [Robinhood](https://robinhood.com) through GameStop and an IPO, launched a product from stealth to GA at [Common Room](https://commonroom.io), and learned a lot about AI and climate change at [Watershed](https://watershed.com). I've made many mistakes along the way."
+              content: "Currently designing at [Harvey](https://harvey.ai) in San Francisco. Previously learned about climate at [Watershed](https://watershed.com), launched from stealth at [Common Room](https://commonroom.io), shipped through GME and IPO at [Robinhood](https://robinhood.com), and designed Dropbox Paper and Sharing at [Dropbox](https://dropbox.com)."
             },
             {
               type: "list", 
@@ -49,7 +49,7 @@ export const portfolioContent: FileSystemItem[] = [
         id: "contact-me",
         name: "Contact me",
         type: "file",
-        icon: <ContactLottieIcon size={20} />,
+        icon: <ContactLottieIcon size={16} />,
         content: {
           title: "Contact me",
           blocks: [
@@ -71,20 +71,35 @@ export const portfolioContent: FileSystemItem[] = [
     id: "work",
     name: "Work",
     type: "folder",
-    icon: <FolderLottieIcon size={20} />,
-    selectedIcon: <FolderLottieIcon size={20} />,
+    icon: <FolderLottieIcon size={16} />,
+    selectedIcon: <FolderLottieIcon size={16} />,
     children: [
+      {
+        id: "harvey",
+        name: "Harvey",
+        type: "file",
+        icon: <DesignLottieIcon size={16} />,
+        content: {
+          title: "Harvey",
+          blocks: [
+            {
+              type: "thumbnail",
+              dateRange: "2026 - Present",
+              description: "Building the Agent experience and learning a lot about the law"
+            }
+          ]
+        }
+      },
       {
         id: "watershed",
         name: "Watershed",
         type: "file",
-        icon: <DesignLottieIcon size={20} />,
+        icon: <DesignLottieIcon size={16} />,
         content: {
           title: "Watershed",
           blocks: [
             {
               type: "thumbnail",
-              image: "/work/watershed.png",
               dateRange: "2023 - 2025",
               description: "Did some things to reduce our world's carbon emissions. Learned a lot about science, regulation, and AI - oh my."
             }
@@ -95,13 +110,12 @@ export const portfolioContent: FileSystemItem[] = [
         id: "common-room",
         name: "Common Room",
         type: "file",
-        icon: <DesignLottieIcon size={20} />,
+        icon: <DesignLottieIcon size={16} />,
         content: {
           title: "Common Room",
           blocks: [
             {
               type: "thumbnail",
-              image: "/work/commonroom.png",
               dateRange: "2021 - 2023",
               description: "Worked on a little bit of everything. Launched a product from zero to GA and learned a lot about B2B and the art of customer obsession."
             }
@@ -112,13 +126,12 @@ export const portfolioContent: FileSystemItem[] = [
         id: "robinhood",
         name: "Robinhood",
         type: "file",
-        icon: <DesignLottieIcon size={20} />,
+        icon: <DesignLottieIcon size={16} />,
         content: {
           title: "Robinhood",
           blocks: [
             {
               type: "thumbnail",
-              image: "/work/robinhood.png",
               dateRange: "2020 - 2021",
               description: "Worked on the onboarding experience. This was critical (and extremely fun) in shipping through GameStop and an IPO."
             }
@@ -129,13 +142,12 @@ export const portfolioContent: FileSystemItem[] = [
         id: "dropbox",
         name: "Dropbox",
         type: "file",
-        icon: <DesignLottieIcon size={20} />,
+        icon: <DesignLottieIcon size={16} />,
         content: {
           title: "Dropbox",
           blocks: [
             {
               type: "thumbnail",
-              image: "/work/dropbox.png",
               dateRange: "2018 - 2020",
               description: "Worked on The-Sharing-Experience™ and Dropbox Paper :'). Learned a lot and made a lot of lifelong friends."
             }
@@ -148,14 +160,14 @@ export const portfolioContent: FileSystemItem[] = [
     id: "fun",
     name: "Fun",
     type: "folder",
-    icon: <FolderLottieIcon size={20} />,
-    selectedIcon: <FolderLottieIcon size={20} />,
+    icon: <FolderLottieIcon size={16} />,
+    selectedIcon: <FolderLottieIcon size={16} />,
     children: [
       {
         id: "doodles",
         name: "Doodles",
         type: "file",
-        icon: <PictureLottieIcon size={20} />,
+        icon: <PictureLottieIcon size={16} />,
         content: {
           title: "Doodles",
           blocks: [
@@ -178,7 +190,7 @@ export const portfolioContent: FileSystemItem[] = [
         id: "cantonese-taboo",
         name: "Cantonese taboo",
         type: "file",
-        icon: <TranslationLottieIcon size={20} />,
+        icon: <TranslationLottieIcon size={16} />,
         content: {
           title: "Cantonese taboo",
           blocks: [
@@ -190,7 +202,8 @@ export const portfolioContent: FileSystemItem[] = [
             {
               type: "list",
               items: [
-                { content: "Buy them", details: "coming soon" },
+                { content: "Abacus Row", details: "abacusrow.com", url: "https://www.abacusrow.com/products/derrick-ho-game-card-aiya" },
+                { content: "On Waverly", details: "onwaverly.com", url: "https://www.onwaverly.com/products/aiya-card-game?srsltid=AfmBOoridaGZRfnfJ7DTnBGXyi2o6VJ3VH7TM18CMMBtk8WNz1zSkDkA" }
               ]
             }
           ]

@@ -3,7 +3,6 @@
 import type React from "react"
 import { useTheme } from "../context/theme-context"
 import { Typography } from "./typography"
-import { ThemeSwitcher } from "./theme-switcher"
 
 interface FinderHeaderProps {
   title: string
@@ -24,7 +23,6 @@ export function FinderHeader({ title, padding = "py-3 px-3" }: FinderHeaderProps
       <Typography variant="h1" color={theme.headerText}>
         {title}
       </Typography>
-      <ThemeSwitcher />
     </div>
   )
 }

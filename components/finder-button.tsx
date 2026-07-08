@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from "react"
-import { ChevronRight, ChevronDown } from "lucide-react"
+import { IconChevronRight, IconChevronBottom } from "@central-icons-react/round-outlined-radius-3-stroke-1.5"
 import { useTheme } from "../context/theme-context"
 import { Typography } from "./typography"
 import { useIsTablet } from "../hooks/use-mobile"
@@ -15,6 +15,8 @@ interface FinderButtonProps {
   variant?: "folder" | "file"
   onMouseEnter?: () => void
   onMouseLeave?: () => void
+  onMouseDown?: () => void
+  onMouseUp?: () => void
   onToggleExpand?: () => void
   isExpanded?: boolean
   isDesktop?: boolean
@@ -29,6 +31,8 @@ export function FinderButton({
   variant = "folder",
   onMouseEnter,
   onMouseLeave,
+  onMouseDown,
+  onMouseUp,
   onToggleExpand,
   isExpanded,
   isDesktop = false
@@ -93,6 +97,8 @@ export function FinderButton({
       style={styles}
       onMouseLeave={handleMouseLeave}
       onMouseEnter={handleMouseEnter}
+      onMouseDown={onMouseDown}
+      onMouseUp={onMouseUp}
     >
       {/* Left chevron for tablet expand/collapse */}
       {onToggleExpand && (
@@ -104,20 +110,20 @@ export function FinderButton({
           className="p-1 rounded transition-transform duration-200"
           style={{ color: textColor }}
         >
-          <ChevronDown className={`w-3 h-3 transition-transform duration-200 ${isExpanded ? 'rotate-180' : 'rotate-0'}`} />
+          <IconChevronBottom size={12} className={`transition-transform duration-200 ${isExpanded ? 'rotate-180' : 'rotate-0'}`} />
         </button>
       )}
       
       <div style={{ color: textColor }}>
         {iconElement}
       </div>
-      <Typography variant="button" color="inherit" className="flex-1">
+      <Typography variant="button" color="inherit" className="flex-1" fontWeight={isSelected || isFileSelected ? 450 : undefined}>
         {children}
       </Typography>
       
       {/* Right chevron for desktop selection indicator */}
       {variant === "folder" && (isSelected || isFileSelected) && !onToggleExpand && (
-        <ChevronRight className="w-3 h-3 ml-auto" style={{ color: textColor }} />
+        <IconChevronRight size={12} className="ml-auto" style={{ color: textColor }} />
       )}
     </button>
   )

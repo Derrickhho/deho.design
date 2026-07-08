@@ -36,6 +36,7 @@ export const portfolioContent: FileSystemItem[] = [
               type: "list", 
               title: "Timeline:",
               items: [
+                { content: "Harvey", details: "2026 - Present" },
                 { content: "Watershed", details: "2023 - 2025" },
                 { content: "Common Room", details: "2021 - 2023" },
                 { content: "Robinhood", details: "2020 - 2021" },

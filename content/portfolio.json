@@ -1,0 +1,229 @@
+[
+  {
+    "id": "info",
+    "name": "Info",
+    "type": "folder",
+    "icon": "folder",
+    "selectedIcon": "folder",
+    "children": [
+      {
+        "id": "about-me",
+        "name": "About me",
+        "type": "file",
+        "icon": "user",
+        "content": {
+          "title": "It's me!",
+          "blocks": [
+            {
+              "type": "paragraph",
+              "content": "Currently designing at [Harvey](https://harvey.ai) in San Francisco. Previously learned about climate at [Watershed](https://watershed.com), launched from stealth at [Common Room](https://commonroom.io), shipped through GME and IPO at [Robinhood](https://robinhood.com), and designed Dropbox Paper and Sharing at [Dropbox](https://dropbox.com)."
+            },
+            {
+              "type": "list",
+              "title": "Timeline:",
+              "items": [
+                { "content": "Harvey", "details": "2026 - Present" },
+                { "content": "Watershed", "details": "2023 - 2025" },
+                { "content": "Common Room", "details": "2021 - 2023" },
+                { "content": "Robinhood", "details": "2020 - 2021" },
+                { "content": "Dropbox", "details": "2018 - 2020" }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "contact-me",
+        "name": "Contact me",
+        "type": "file",
+        "icon": "contact",
+        "content": {
+          "title": "Contact me",
+          "blocks": [
+            {
+              "type": "list",
+              "title": "Reach me via:",
+              "items": [
+                {
+                  "content": "Email",
+                  "details": "derrickhho@gmail.com",
+                  "url": "mailto:derrickhho@gmail.com"
+                },
+                {
+                  "content": "LinkedIn",
+                  "details": "/in/derrickhho",
+                  "url": "https://linkedin.com/in/derrickhho"
+                },
+                {
+                  "content": "Twitter",
+                  "details": "@derrickhho",
+                  "url": "https://x.com/derrickhho"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "work",
+    "name": "Work",
+    "type": "folder",
+    "icon": "folder",
+    "selectedIcon": "folder",
+    "children": [
+      {
+        "id": "harvey",
+        "name": "Harvey",
+        "type": "file",
+        "icon": "work",
+        "content": {
+          "title": "Harvey",
+          "blocks": [
+            {
+              "type": "thumbnail",
+              "dateRange": "2026 - Present",
+              "description": "Building the Agent experience and learning a lot about the law"
+            }
+          ]
+        }
+      },
+      {
+        "id": "watershed",
+        "name": "Watershed",
+        "type": "file",
+        "icon": "work",
+        "content": {
+          "title": "Watershed",
+          "blocks": [
+            {
+              "type": "thumbnail",
+              "dateRange": "2023 - 2025",
+              "description": "Did some things to reduce our world's carbon emissions. Learned a lot about science, regulation, and AI."
+            }
+          ]
+        }
+      },
+      {
+        "id": "common-room",
+        "name": "Common Room",
+        "type": "file",
+        "icon": "work",
+        "content": {
+          "title": "Common Room",
+          "blocks": [
+            {
+              "type": "thumbnail",
+              "dateRange": "2021 - 2023",
+              "description": "Worked on a little bit of everything. Launched a product from zero to GA and learned a lot about B2B and the art of customer obsession."
+            }
+          ]
+        }
+      },
+      {
+        "id": "robinhood",
+        "name": "Robinhood",
+        "type": "file",
+        "icon": "work",
+        "content": {
+          "title": "Robinhood",
+          "blocks": [
+            {
+              "type": "thumbnail",
+              "dateRange": "2020 - 2021",
+              "description": "Worked on the onboarding experience through Gamestop and IPO"
+            }
+          ]
+        }
+      },
+      {
+        "id": "dropbox",
+        "name": "Dropbox",
+        "type": "file",
+        "icon": "work",
+        "content": {
+          "title": "Dropbox",
+          "blocks": [
+            {
+              "type": "thumbnail",
+              "dateRange": "2018 - 2020",
+              "description": "Worked on The-Sharing-Experience™ and Dropbox Paper :'). Learned a lot and made a lot of lifelong friends."
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "id": "fun",
+    "name": "Fun",
+    "type": "folder",
+    "icon": "folder",
+    "selectedIcon": "folder",
+    "children": [
+      {
+        "id": "doodles",
+        "name": "Doodles",
+        "type": "file",
+        "icon": "highlight",
+        "content": {
+          "title": "Doodles",
+          "blocks": [
+            {
+              "type": "thumbnail",
+              "image": "/doodles.png",
+              "description": "Sometimes I like to draw."
+            },
+            {
+              "type": "list",
+              "items": [
+                {
+                  "content": "Store",
+                  "details": "derrickdoodles.com",
+                  "url": "https://derrickdoodles.com"
+                },
+                {
+                  "content": "Instagram",
+                  "details": "instagram.com/derrick.doodles",
+                  "url": "https://instagram.com/derrick.doodles"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "id": "cantonese-taboo",
+        "name": "Cantonese taboo",
+        "type": "file",
+        "icon": "translate",
+        "content": {
+          "title": "Cantonese taboo",
+          "blocks": [
+            {
+              "type": "thumbnail",
+              "image": "/taboo.png",
+              "description": "Dabbled in print and made this game for learning Cantonese."
+            },
+            {
+              "type": "list",
+              "items": [
+                {
+                  "content": "Abacus Row",
+                  "details": "abacusrow.com",
+                  "url": "https://www.abacusrow.com/products/derrick-ho-game-card-aiya"
+                },
+                {
+                  "content": "On Waverly",
+                  "details": "onwaverly.com",
+                  "url": "https://www.onwaverly.com/products/aiya-card-game?srsltid=AfmBOoridaGZRfnfJ7DTnBGXyi2o6VJ3VH7TM18CMMBtk8WNz1zSkDkA"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
+  }
+]

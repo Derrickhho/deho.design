@@ -78,7 +78,7 @@ deho.design/
 
 ### Adding Content
 
-Content is managed in `content/portfolio-content.tsx`. You can:
+Content is managed in `content/portfolio.json`. You can:
 
 - Add new folders and files
 - Update existing content

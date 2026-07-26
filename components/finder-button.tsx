@@ -41,7 +41,7 @@ export function FinderButton({
   const isTablet = useIsTablet()
   const [isHovered, setIsHovered] = useState(false)
 
-  const baseClasses = "w-full h-10 flex items-center gap-2 pt-2 pr-2.5 pb-2 pl-3 text-left rounded-md transition-all duration-200 ease-in-out select-none"
+  const baseClasses = "w-full h-9 flex items-center gap-2 pt-2 pr-2.5 pb-2 pl-3 text-left rounded-md transition-all duration-200 ease-in-out select-none"
 
   const buttonTheme = variant === "folder" ? theme.folderButton : theme.fileButton
   
@@ -114,7 +114,10 @@ export function FinderButton({
         </button>
       )}
       
-      <div style={{ color: textColor }}>
+      <div
+        className="flex size-4 shrink-0 items-center justify-center"
+        style={{ color: textColor }}
+      >
         {iconElement}
       </div>
       <Typography variant="button" color="inherit" className="flex-1" fontWeight={isSelected || isFileSelected ? 450 : undefined}>

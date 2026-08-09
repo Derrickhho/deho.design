@@ -1,27 +1,27 @@
 "use client"
 
 import type React from "react"
-import type { CentralIconBaseProps } from "@central-icons-react/round-outlined-radius-3-stroke-1.5/CentralIconBase"
+import type { CentralIconBaseProps } from "@central-icons-react/round-outlined-radius-3-stroke-2/CentralIconBase"
 import {
   IconFolder1,
-  IconUser,
+  IconPeople,
   IconContacts,
   IconSuitcaseWork,
   IconHighlight,
   IconTranslate,
   IconEmail1,
   IconFileText,
-} from "@central-icons-react/round-outlined-radius-3-stroke-1.5"
+} from "@central-icons-react/round-outlined-radius-3-stroke-2"
 import {
   IconFolderOpen as IconFolderOpenFilled,
-  IconUser as IconUserFilled,
+  IconPeople as IconPeopleFilled,
   IconContacts as IconContactsFilled,
   IconSuitcaseWork as IconSuitcaseWorkFilled,
   IconHighlight as IconHighlightFilled,
   IconTranslate as IconTranslateFilled,
   IconEmail1 as IconEmail1Filled,
   IconFileText as IconFileTextFilled,
-} from "@central-icons-react/round-filled-radius-3-stroke-1.5"
+} from "@central-icons-react/round-filled-radius-3-stroke-2"
 
 type CentralIcon = React.FC<CentralIconBaseProps>
 
@@ -44,7 +44,7 @@ function makeAppIcon(Unselected: CentralIcon, SelectedFilled: CentralIcon) {
 }
 
 export const FolderLottieIcon = makeAppIcon(IconFolder1, IconFolderOpenFilled)
-export const UserLottieIcon = makeAppIcon(IconUser, IconUserFilled)
+export const UserLottieIcon = makeAppIcon(IconPeople, IconPeopleFilled)
 export const ContactLottieIcon = makeAppIcon(IconContacts, IconContactsFilled)
 export const DesignLottieIcon = makeAppIcon(IconSuitcaseWork, IconSuitcaseWorkFilled)
 export const PictureLottieIcon = makeAppIcon(IconHighlight, IconHighlightFilled)

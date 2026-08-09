@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from "react"
-import { IconChevronRight, IconChevronBottom } from "@central-icons-react/round-outlined-radius-3-stroke-1.5"
+import { IconChevronRight, IconChevronBottom } from "@central-icons-react/round-outlined-radius-3-stroke-2"
 import { useTheme } from "../context/theme-context"
 import { Typography } from "./typography"
 import { useIsTablet } from "../hooks/use-mobile"

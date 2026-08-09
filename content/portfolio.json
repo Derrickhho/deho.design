@@ -20,7 +20,6 @@
             },
             {
               "type": "list",
-              "title": "Timeline:",
               "items": [
                 { "content": "Harvey", "details": "2026 - Present" },
                 { "content": "Watershed", "details": "2023 - 2025" },

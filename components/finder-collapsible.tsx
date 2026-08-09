@@ -179,7 +179,7 @@ export function FinderCollapsible({
       <div className="p-3 max-h-full overflow-y-auto relative scrollbar-hide" ref={containerRef}>
         {/* Animated hover background with fade effect - below selected state */}
         <div 
-          className={`absolute left-3 right-3 h-9 rounded-md transition-opacity duration-200 ease-in-out pointer-events-none ${
+          className={`absolute left-3 right-3 h-9 rounded-md pointer-events-none ${
             isVisible ? 'opacity-35' : 'opacity-0'
           }`}
           style={{ 
@@ -192,7 +192,7 @@ export function FinderCollapsible({
         {/* Selected background */}
         {fallbackSelectedIndex >= 0 && (
           <div 
-            className="absolute left-3 right-3 h-9 rounded-md pointer-events-none transition-all duration-200 ease-in-out"
+            className="absolute left-3 right-3 h-9 rounded-md pointer-events-none"
             style={{ 
               backgroundColor: selectedBackground,
               top: calculateItemPositions()[fallbackSelectedIndex] || 0,

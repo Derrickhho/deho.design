@@ -41,7 +41,7 @@ export function FinderButton({
   const isTablet = useIsTablet()
   const [isHovered, setIsHovered] = useState(false)
 
-  const baseClasses = "w-full h-9 flex items-center gap-2 pt-2 pr-2.5 pb-2 pl-3 text-left rounded-md transition-all duration-200 ease-in-out select-none"
+  const baseClasses = "w-full h-9 flex items-center gap-2 pt-2 pr-2.5 pb-2 pl-3 text-left rounded-md select-none"
 
   const buttonTheme = variant === "folder" ? theme.folderButton : theme.fileButton
   
@@ -107,10 +107,10 @@ export function FinderButton({
             e.stopPropagation()
             onToggleExpand()
           }}
-          className="p-1 rounded transition-transform duration-200"
+          className="p-1 rounded"
           style={{ color: textColor }}
         >
-          <IconChevronBottom size={12} className={`transition-transform duration-200 ${isExpanded ? 'rotate-180' : 'rotate-0'}`} />
+          <IconChevronBottom size={12} className={isExpanded ? 'rotate-180' : 'rotate-0'} />
         </button>
       )}
       
@@ -120,7 +120,12 @@ export function FinderButton({
       >
         {iconElement}
       </div>
-      <Typography variant="button" color="inherit" className="flex-1" fontWeight={isSelected || isFileSelected ? 450 : undefined}>
+      <Typography
+        variant="button"
+        color="inherit"
+        className="min-w-0 flex-1 truncate"
+        fontWeight={isSelected || isFileSelected ? 450 : undefined}
+      >
         {children}
       </Typography>
       

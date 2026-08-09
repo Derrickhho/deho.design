@@ -108,7 +108,7 @@ export function FinderColumn({ children, width = "w-60", showBorder = false, sel
       <div className="p-3 space-y-0.5 relative w-full" ref={containerRef}>
         {/* Animated hover background with fade effect - below selected state */}
         <div 
-          className={`absolute left-3 right-3 h-9 rounded-md transition-opacity duration-200 ease-in-out pointer-events-none ${
+          className={`absolute left-3 right-3 h-9 rounded-md pointer-events-none ${
             isVisible ? (pressedIndex !== null && pressedIndex === hoveredIndex ? 'opacity-50' : 'opacity-35') : 'opacity-0'
           }`}
           style={{ 

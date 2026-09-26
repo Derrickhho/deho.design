@@ -15,10 +15,11 @@ export function FinderWindow({ children, height = "h-[400px]", width = "w-full" 
   const styles = {
     backgroundColor: theme.windowBackground,
     borderColor: theme.windowBorder,
+    borderWidth: "0.5px",
   }
 
   return (
-    <div className={`rounded-xl overflow-hidden border leading-7 ${height} ${width}`} style={styles}>
+    <div className={`rounded-[16px] overflow-hidden border leading-7 ${height} ${width}`} style={styles}>
       <div className="flex h-full flex-nowrap">{children}</div>
     </div>
   )

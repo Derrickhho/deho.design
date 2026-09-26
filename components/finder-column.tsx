@@ -22,6 +22,7 @@ export function FinderColumn({ children, width = "w-60", showBorder = false, sel
   const styles = {
     backgroundColor: theme.column.background,
     borderRightColor: showBorder ? theme.column.border : "transparent",
+    borderRightWidth: "0.5px",
   }
 
   // Always apply border class to maintain consistent width
@@ -64,7 +65,7 @@ export function FinderColumn({ children, width = "w-60", showBorder = false, sel
     if (selectedIndex !== undefined && selectedIndex !== null) {
       const buttonHeight = 36 // h-9 = 36px
       const buttonSpacing = 0 // space-y-0.5 = 2px
-      const padding = 12 // p-3 = 12px
+      const padding = 10 // p-2.5 = 10px
       return padding + (selectedIndex * (buttonHeight + buttonSpacing))
     }
     return 0
@@ -77,7 +78,7 @@ export function FinderColumn({ children, width = "w-60", showBorder = false, sel
     if (hoveredIndex !== null && containerRef.current) {
       const buttonHeight = 36 // h-9 = 36px
       const buttonSpacing = 0 // space-y-0.5 = 2px
-      const padding = 12 // p-3 = 12px
+      const padding = 10 // p-2.5 = 10px
       const newPosition = padding + (hoveredIndex * (buttonHeight + buttonSpacing))
       setHoverPosition(newPosition)
       setIsVisible(true)
@@ -105,10 +106,10 @@ export function FinderColumn({ children, width = "w-60", showBorder = false, sel
 
   return (
     <div className={`${width} flex-shrink-0 ${borderClass}`} style={styles}>
-      <div className="p-3 space-y-0.5 relative w-full" ref={containerRef}>
+      <div className="p-2.5 space-y-0.5 relative w-full" ref={containerRef}>
         {/* Animated hover background with fade effect - below selected state */}
         <div 
-          className={`absolute left-3 right-3 h-9 rounded-md pointer-events-none ${
+          className={`absolute left-2.5 right-2.5 h-9 rounded-md pointer-events-none ${
             isVisible ? (pressedIndex !== null && pressedIndex === hoveredIndex ? 'opacity-50' : 'opacity-35') : 'opacity-0'
           }`}
           style={{ 
@@ -121,7 +122,7 @@ export function FinderColumn({ children, width = "w-60", showBorder = false, sel
         {/* Selected background */}
         {selectedIndex !== undefined && selectedIndex !== null && (
           <div 
-            className="absolute left-3 right-3 h-9 rounded-md pointer-events-none"
+            className="absolute left-2.5 right-2.5 h-9 rounded-md pointer-events-none"
             style={{ 
               backgroundColor: selectedBackground,
               top: selectedPosition,

@@ -5,4 +5,4 @@
 // Vertical padding on an inline element grows the hover background up/down for
 // breathing room without pushing lines apart or affecting text selection.
 export const linkClassName =
-  "group rounded px-1 py-0.5 -mx-1 box-decoration-clone transition-colors duration-200 hover:bg-blue-400/20 active:bg-blue-400/20"
+  "group rounded px-1 py-0.5 -mx-1 box-decoration-clone hover:bg-blue-400/20 active:bg-blue-400/20"

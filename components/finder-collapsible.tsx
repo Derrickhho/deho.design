@@ -155,6 +155,7 @@ export function FinderCollapsible({
   const styles = {
     backgroundColor: theme.column.background,
     borderColor: theme.column.border,
+    borderRightWidth: "0.5px",
   }
 
   // Get the correct theme colors based on variant and state

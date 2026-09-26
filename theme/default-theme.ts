@@ -87,10 +87,10 @@ export const lightTheme: FinderTheme = {
 }
 
 export const darkTheme: FinderTheme = {
-  background: "#1a1a1a",
-  windowBackground: "#2d2d2d",
+  background: "#0a0a0a",
+  windowBackground: "#262626",
   windowBorder: "#404040",
-  headerText: "#a0a0a0",
+  headerText: "#ffffff",
   typography: {
     h1: {
       fontSize: "24px",
@@ -161,11 +161,11 @@ export const darkTheme: FinderTheme = {
     },
   },
   column: {
-    background: "#2d2d2d",
+    background: "#262626",
     border: "#404040",
   },
   content: {
-    background: "#2d2d2d",
+    background: "#262626",
     titleText: "#ffffff",
     bodyText: "#e0e0e0",
     mutedText: "#a0a0a0",

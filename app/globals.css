@@ -120,9 +120,14 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply text-foreground;
   }
-  
+}
+
+/* Match the canvas so rubber-band overscroll uses the same color. */
+html,
+body {
+  background-color: #0a0a0a;
 }
 
 /* Custom text selection colors - match the selected row blue */

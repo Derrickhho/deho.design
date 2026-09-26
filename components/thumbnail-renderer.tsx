@@ -21,24 +21,22 @@ export function ThumbnailRenderer({ thumbnail }: ThumbnailRendererProps) {
     <div className="flex flex-col h-full">
       <div className="space-y-4 flex-1">
         {/* Image placeholder */}
-        <div className="w-full h-40 bg-gray-200 rounded-lg flex items-center justify-center">
-          {thumbnail.image && thumbnail.image !== "/placeholder.jpg" ? (
-            <img 
-              src={getImageUrl(thumbnail.image)} 
-              alt="Project thumbnail" 
-              className="w-full h-full object-cover rounded-lg"
-              onLoad={() => console.log('✅ Image loaded successfully:', thumbnail.image)}
-              onError={(e) => {
-                console.error('❌ Image failed to load:', thumbnail.image)
-                console.error('Error details:', e)
-                console.error('Attempted URL:', getImageUrl(thumbnail.image || ''))
-                console.error('Current location:', typeof window !== 'undefined' ? window.location.href : 'server-side')
-              }}
-            />
-          ) : (
+        {thumbnail.image && thumbnail.image !== "/placeholder.jpg" ? (
+          <div
+            className="w-full h-40 rounded-lg border-0 overflow-hidden"
+            style={{
+              backgroundImage: `url(${getImageUrl(thumbnail.image)})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              backgroundRepeat: 'no-repeat',
+              WebkitMaskImage: '-webkit-radial-gradient(white, black)',
+            }}
+          />
+        ) : (
+          <div className="w-full h-40 rounded-lg flex items-center justify-center bg-gray-100">
             <div className="text-gray-400 text-sm">Image placeholder</div>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Date range */}
         {thumbnail.dateRange && (

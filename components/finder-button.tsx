@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from "react"
-import { IconChevronRight, IconChevronBottom } from "@central-icons-react/round-outlined-radius-3-stroke-2"
+import { IconChevronRight, IconChevronBottom } from "@central-icons-react/round-outlined-radius-2-stroke-2"
 import { useTheme } from "../context/theme-context"
 import { Typography } from "./typography"
 import { useIsTablet } from "../hooks/use-mobile"
@@ -47,7 +47,7 @@ export function FinderButton({
   
   // Determine text color based on state
   let textColor: string
-  let iconSelected: boolean
+  const iconIsActive = isSelected || isFileSelected
   if (isFileSelected && variant === "folder") {
     // File-selected folders take priority over regular selection
     if (isDesktop) {
@@ -55,15 +55,14 @@ export function FinderButton({
     } else {
       textColor = (theme.folderButton as any).fileSelected.text
     }
-    iconSelected = false // Don't make icon white for file-selected folders
   } else if (isSelected) {
-    // Regular selected text color
     textColor = buttonTheme.selected.text
-    iconSelected = true // Make icon white for truly selected items
   } else {
     textColor = buttonTheme.default.text
-    iconSelected = false
   }
+
+  // Selected rows get a slightly lighter icon; idle rows get a slightly darker one.
+  const iconColor = iconIsActive ? "rgba(255, 255, 255, 0.92)" : "rgba(255, 255, 255, 0.5)"
 
   const styles = {
     backgroundColor: 'transparent', // Background is handled by parent animated overlays
@@ -86,7 +85,7 @@ export function FinderButton({
   const iconElement = React.isValidElement(icon) 
     ? React.cloneElement(icon as any, {
         isHovered,
-        isSelected: iconSelected
+        isSelected: iconIsActive
       })
     : icon
 
@@ -116,7 +115,7 @@ export function FinderButton({
       
       <div
         className="flex size-4 shrink-0 items-center justify-center"
-        style={{ color: textColor }}
+        style={{ color: iconColor }}
       >
         {iconElement}
       </div>

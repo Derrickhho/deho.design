@@ -35,7 +35,7 @@
         "id": "contact-me",
         "name": "Contact me",
         "type": "file",
-        "icon": "contact",
+        "icon": "mail",
         "content": {
           "title": "Contact me",
           "blocks": [

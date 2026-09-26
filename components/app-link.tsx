@@ -22,7 +22,7 @@ export function AppLink({ children, href, onClick, variant = "blue", className =
   // Inherit font-size/line-height from context so inline links match the
   // paragraph they sit in and don't create gaps when text is selected.
   const content = (
-    <span className={`font-medium transition-colors duration-200 ${textClass}`}>
+    <span className={`font-medium ${textClass}`}>
       {children}
     </span>
   )

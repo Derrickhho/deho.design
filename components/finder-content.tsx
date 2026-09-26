@@ -45,7 +45,7 @@ export function FinderContent({ breadcrumbs, children, content, isEmpty = false,
       {breadcrumbs && breadcrumbs.length > 0 && (
         <div
           className="h-10 flex items-center px-3 flex-shrink-0"
-          style={{ borderBottom: `1px solid ${theme.column.border}` }}
+          style={{ borderBottom: `0.5px solid ${theme.column.border}` }}
         >
           {breadcrumbs.map((crumb, i) => (
             <React.Fragment key={i}>

@@ -74,7 +74,7 @@ function ThumbnailBlockRenderer({ block }: { block: any }) {
         )}
 
         {/* Description */}
-        <Typography variant="body" className="pt-2">
+        <Typography variant="body">
           {block.description}
         </Typography>
       </div>

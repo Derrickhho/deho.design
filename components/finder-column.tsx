@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useRef, useEffect } from "react"
+import React from "react"
 import { useTheme } from "../context/theme-context"
 
 interface FinderColumnProps {
@@ -13,11 +13,6 @@ interface FinderColumnProps {
 
 export function FinderColumn({ children, width = "w-60", showBorder = false, selectedIndex, variant = "folder" }: FinderColumnProps) {
   const { theme } = useTheme()
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
-  const [pressedIndex, setPressedIndex] = useState<number | null>(null)
-  const [hoverPosition, setHoverPosition] = useState(0)
-  const [isVisible, setIsVisible] = useState(false)
-  const containerRef = useRef<HTMLDivElement>(null)
 
   const styles = {
     backgroundColor: theme.column.background,
@@ -73,52 +68,9 @@ export function FinderColumn({ children, width = "w-60", showBorder = false, sel
 
   const selectedPosition = getSelectedPosition()
 
-  // Update hover position when hoveredIndex changes
-  useEffect(() => {
-    if (hoveredIndex !== null && containerRef.current) {
-      const buttonHeight = 36 // h-9 = 36px
-      const buttonSpacing = 0 // space-y-0.5 = 2px
-      const padding = 10 // p-2.5 = 10px
-      const newPosition = padding + (hoveredIndex * (buttonHeight + buttonSpacing))
-      setHoverPosition(newPosition)
-      setIsVisible(true)
-    } else {
-      setIsVisible(false)
-    }
-  }, [hoveredIndex])
-
-  // Clone children and add hover handlers
-  const childrenWithHover = React.Children.map(children, (child, index) => {
-    if (React.isValidElement(child)) {
-      return React.cloneElement(child as React.ReactElement<any>, {
-        onMouseEnter: () => setHoveredIndex(index),
-        onMouseLeave: () => {
-          setHoveredIndex(null)
-          setPressedIndex(null)
-        },
-        onMouseDown: () => setPressedIndex(index),
-        onMouseUp: () => setPressedIndex(null),
-        key: index,
-      })
-    }
-    return child
-  })
-
   return (
     <div className={`${width} flex-shrink-0 ${borderClass}`} style={styles}>
-      <div className="p-2.5 space-y-0.5 relative w-full" ref={containerRef}>
-        {/* Animated hover background with fade effect - below selected state */}
-        <div 
-          className={`absolute left-2.5 right-2.5 h-9 rounded-md pointer-events-none ${
-            isVisible ? (pressedIndex !== null && pressedIndex === hoveredIndex ? 'opacity-50' : 'opacity-35') : 'opacity-0'
-          }`}
-          style={{ 
-            backgroundColor: theme.folderButton.default.hover,
-            top: hoverPosition,
-            zIndex: 1,
-          }}
-        />
-        
+      <div className="p-2.5 space-y-0.5 relative w-full">
         {/* Selected background */}
         {selectedIndex !== undefined && selectedIndex !== null && (
           <div 
@@ -133,7 +85,7 @@ export function FinderColumn({ children, width = "w-60", showBorder = false, sel
         
         {/* Button content */}
         <div className="relative z-10">
-          {childrenWithHover}
+          {children}
         </div>
       </div>
     </div>

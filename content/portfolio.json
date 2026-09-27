@@ -170,7 +170,6 @@
           "blocks": [
             {
               "type": "thumbnail",
-              "image": "/doodles.png",
               "description": "Sometimes I like to draw."
             },
             {
@@ -201,7 +200,6 @@
           "blocks": [
             {
               "type": "thumbnail",
-              "image": "/taboo.png",
               "description": "Dabbled in print and made this game for learning Cantonese."
             },
             {

@@ -61,8 +61,17 @@ export function FinderButton({
     textColor = buttonTheme.default.text
   }
 
+  if (isHovered) {
+    textColor = "#ffffff"
+  }
+
   // Selected rows get a slightly lighter icon; idle rows get a slightly darker one.
-  const iconColor = iconIsActive ? "rgba(255, 255, 255, 0.92)" : "rgba(255, 255, 255, 0.5)"
+  // Hover turns the icon white along with the label.
+  const iconColor = isHovered
+    ? "#ffffff"
+    : iconIsActive
+      ? "rgba(255, 255, 255, 0.92)"
+      : "rgba(255, 255, 255, 0.5)"
 
   const styles = {
     backgroundColor: 'transparent', // Background is handled by parent animated overlays

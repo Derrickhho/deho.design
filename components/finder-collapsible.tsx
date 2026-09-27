@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect } from "react"
 import { FinderButton } from "./finder-button"
 import { useTheme } from "../context/theme-context"
 import { useIsTablet } from "../hooks/use-mobile"
@@ -26,10 +26,6 @@ export function FinderCollapsible({
   const { theme } = useTheme()
   const isTablet = useIsTablet()
   const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set([selectedFolder]))
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
-  const [hoverPosition, setHoverPosition] = useState(0)
-  const [isVisible, setIsVisible] = useState(false)
-  const containerRef = useRef<HTMLDivElement>(null)
 
   // Ensure selected folder is always expanded (only in desktop mode)
   useEffect(() => {
@@ -88,29 +84,6 @@ export function FinderCollapsible({
 
 
 
-  // Helper function to calculate global index for any item
-  const getGlobalIndex = (folderIndex: number, fileIndex?: number) => {
-    let globalIndex = 0
-    for (let i = 0; i < folders.length; i++) {
-      if (i === folderIndex) {
-        if (fileIndex !== undefined && expandedFolders.has(folders[i].id)) {
-          // Return index for file within this folder
-          return globalIndex + 1 + fileIndex
-        }
-        // Return index for folder itself
-        return globalIndex
-      }
-      globalIndex++ // Count the folder
-      // If this folder is expanded, count its children
-      if (expandedFolders.has(folders[i].id) && folders[i].children) {
-        globalIndex += folders[i].children!.length
-      }
-    }
-    return -1
-  }
-
-
-
   // Calculate the actual position of each item in the list
   const calculateItemPositions = () => {
     const positions: number[] = []
@@ -139,19 +112,6 @@ export function FinderCollapsible({
     return positions
   }
 
-  // Update hover position when hoveredIndex changes
-  useEffect(() => {
-    if (hoveredIndex !== null && containerRef.current) {
-      const positions = calculateItemPositions()
-      if (positions[hoveredIndex] !== undefined) {
-        setHoverPosition(positions[hoveredIndex])
-        setIsVisible(true)
-      }
-    } else {
-      setIsVisible(false)
-    }
-  }, [hoveredIndex, expandedFolders])
-
   const styles = {
     backgroundColor: theme.column.background,
     borderColor: theme.column.border,
@@ -177,19 +137,7 @@ export function FinderCollapsible({
 
   return (
     <div className="w-60 flex-shrink-0 border-r" style={styles}>
-      <div className="p-3 max-h-full overflow-y-auto relative scrollbar-hide" ref={containerRef}>
-        {/* Animated hover background with fade effect - below selected state */}
-        <div 
-          className={`absolute left-3 right-3 h-9 rounded-md pointer-events-none ${
-            isVisible ? 'opacity-35' : 'opacity-0'
-          }`}
-          style={{ 
-            backgroundColor: theme.folderButton.default.hover,
-            top: hoverPosition,
-            zIndex: 1,
-          }}
-        />
-        
+      <div className="p-3 max-h-full overflow-y-auto relative scrollbar-hide">
         {/* Selected background */}
         {fallbackSelectedIndex >= 0 && (
           <div 
@@ -225,8 +173,6 @@ export function FinderCollapsible({
                       variant="folder"
                       onToggleExpand={hasChildren ? () => toggleFolder(folder.id) : undefined}
                       isExpanded={isExpanded}
-                      onMouseEnter={() => setHoveredIndex(getGlobalIndex(folderIndex))}
-                      onMouseLeave={() => setHoveredIndex(null)}
                       isDesktop={false}
                     >
                       {folder.name}
@@ -250,8 +196,6 @@ export function FinderCollapsible({
                             }
                           }}
                           variant="file"
-                          onMouseEnter={() => setHoveredIndex(getGlobalIndex(folderIndex, fileIndex))}
-                          onMouseLeave={() => setHoveredIndex(null)}
                           isDesktop={false}
                         >
                           {file.name}

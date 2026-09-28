@@ -82,7 +82,7 @@
             {
               "type": "thumbnail",
               "dateRange": "2026 - Present",
-              "description": "Building the Agent experience and learning a lot about the law"
+              "description": "Building the Agent experience and learning a lot about the law."
             }
           ]
         }
@@ -130,7 +130,7 @@
             {
               "type": "thumbnail",
               "dateRange": "2020 - 2021",
-              "description": "Worked on the onboarding experience through Gamestop and IPO"
+              "description": "Worked on the onboarding experience through Gamestop and IPO."
             }
           ]
         }
@@ -239,7 +239,7 @@
           "blocks": [
             {
               "type": "thumbnail",
-              "description": "A library for rounding the corners on the highlight area when selecting text"
+              "description": "A library for rounding the corners on the highlight area when selecting text."
             },
             {
               "type": "list",

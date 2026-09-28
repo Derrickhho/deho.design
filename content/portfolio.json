@@ -221,5 +221,44 @@
         }
       }
     ]
+  },
+  {
+    "id": "projects",
+    "name": "Projects",
+    "type": "folder",
+    "icon": "folder",
+    "selectedIcon": "folder",
+    "children": [
+      {
+        "id": "linecove",
+        "name": "linecove",
+        "type": "file",
+        "icon": "code",
+        "content": {
+          "title": "linecove",
+          "blocks": [
+            {
+              "type": "thumbnail",
+              "description": "A library for rounding the corners on the highlight area when selecting text"
+            },
+            {
+              "type": "list",
+              "items": [
+                {
+                  "content": "Linecove",
+                  "details": "linecove.deho.design",
+                  "url": "https://linecove.deho.design"
+                },
+                {
+                  "content": "Github",
+                  "details": "github.com/Derrickhho/linecove",
+                  "url": "https://github.com/Derrickhho/linecove"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ]
   }
 ]

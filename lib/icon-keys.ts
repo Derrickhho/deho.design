@@ -7,6 +7,7 @@ export const ICON_KEYS = [
   "translate",
   "mail",
   "file",
+  "code",
 ] as const
 
 export type IconKey = (typeof ICON_KEYS)[number]

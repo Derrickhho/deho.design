@@ -8,6 +8,7 @@ import {
   TranslationLottieIcon,
   MailLottieIcon,
   FileLottieIcon,
+  CodeLottieIcon,
 } from "../components/central-icons"
 import { ICON_KEYS, type IconKey } from "./icon-keys"
 
@@ -29,6 +30,7 @@ export const iconRegistry: Record<IconKey, AppIconComponent> = {
   translate: TranslationLottieIcon,
   mail: MailLottieIcon,
   file: FileLottieIcon,
+  code: CodeLottieIcon,
 }
 
 export function renderIcon(key: IconKey, size = 16): React.ReactElement {

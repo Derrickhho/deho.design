@@ -11,6 +11,7 @@ import {
   IconTranslate,
   IconEmail1,
   IconFileText,
+  IconCodeBrackets,
 } from "@central-icons-react/round-filled-radius-2-stroke-2"
 
 type CentralIcon = React.FC<CentralIconBaseProps>
@@ -39,3 +40,4 @@ export const PictureLottieIcon = makeAppIcon(IconHighlight)
 export const TranslationLottieIcon = makeAppIcon(IconTranslate)
 export const MailLottieIcon = makeAppIcon(IconEmail1)
 export const FileLottieIcon = makeAppIcon(IconFileText)
+export const CodeLottieIcon = makeAppIcon(IconCodeBrackets)

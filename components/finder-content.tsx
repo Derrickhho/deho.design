@@ -6,6 +6,7 @@ import { Body } from "./typography"
 import { FlexibleContentRenderer } from "./flexible-content-renderer"
 import { ErrorBoundary } from "./error-boundary"
 import { AppLink } from "./app-link"
+import { useLinecove } from "./linecove-selection"
 import type { ContentData } from "../types/content"
 
 export interface Breadcrumb {
@@ -23,6 +24,7 @@ interface FinderContentProps {
 
 export function FinderContent({ breadcrumbs, children, content, isEmpty = false, isTablet = false }: FinderContentProps) {
   const { theme } = useTheme()
+  const linecoveRef = useLinecove<HTMLDivElement>()
 
   const styles = {
     backgroundColor: theme.content.background,
@@ -30,7 +32,7 @@ export function FinderContent({ breadcrumbs, children, content, isEmpty = false,
 
   if (isEmpty) {
     return (
-      <div className="flex-1" style={styles}>
+      <div ref={linecoveRef} className="flex-1" style={styles}>
         <div className="p-3 overflow-y-auto h-full max-h-full scrollbar-hide">
           <div className="flex items-center justify-center h-full">
             <Body color={theme.content.mutedText}>Select something to view details</Body>
@@ -41,7 +43,7 @@ export function FinderContent({ breadcrumbs, children, content, isEmpty = false,
   }
 
   return (
-    <div className="flex-1 flex flex-col h-full max-h-full overflow-hidden" style={styles}>
+    <div ref={linecoveRef} className="flex-1 flex flex-col h-full max-h-full overflow-hidden" style={styles}>
       {breadcrumbs && breadcrumbs.length > 0 && (
         <div
           className="h-10 flex items-center px-3 flex-shrink-0"

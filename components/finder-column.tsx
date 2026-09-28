@@ -2,6 +2,7 @@
 
 import React from "react"
 import { useTheme } from "../context/theme-context"
+import { useLinecove } from "./linecove-selection"
 
 interface FinderColumnProps {
   children: React.ReactNode
@@ -13,6 +14,7 @@ interface FinderColumnProps {
 
 export function FinderColumn({ children, width = "w-60", showBorder = false, selectedIndex, variant = "folder" }: FinderColumnProps) {
   const { theme } = useTheme()
+  const linecoveRef = useLinecove<HTMLDivElement>()
 
   const styles = {
     backgroundColor: theme.column.background,
@@ -69,7 +71,7 @@ export function FinderColumn({ children, width = "w-60", showBorder = false, sel
   const selectedPosition = getSelectedPosition()
 
   return (
-    <div className={`${width} flex-shrink-0 ${borderClass}`} style={styles}>
+    <div ref={linecoveRef} className={`${width} flex-shrink-0 ${borderClass}`} style={styles}>
       <div className="p-2.5 space-y-0.5 relative w-full">
         {/* Selected background */}
         {selectedIndex !== undefined && selectedIndex !== null && (

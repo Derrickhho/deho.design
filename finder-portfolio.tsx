@@ -14,6 +14,7 @@ import { ErrorBoundary } from "./components/error-boundary"
 import { useIsTablet, useIsMobile } from "./hooks/use-mobile"
 import { FlexibleContentRenderer } from "./components/flexible-content-renderer"
 import { Heading1, Body } from "./components/typography"
+import { useLinecove } from "./components/linecove-selection"
 import type { FinderTheme } from "./types/theme"
 
 
@@ -21,6 +22,7 @@ function FinderPortfolioContent() {
   const { theme } = useTheme()
   const isTablet = useIsTablet()
   const isMobile = useIsMobile()
+  const linecoveRef = useLinecove<HTMLDivElement>()
   const [selectedFolder, setSelectedFolder] = useState<string>("info")
   const [selectedFile, setSelectedFile] = useState<string>("about-me")
   const [activeColumn, setActiveColumn] = useState<'folder' | 'file'>('file')
@@ -35,6 +37,7 @@ function FinderPortfolioContent() {
   const selectedFileIndex = currentFolder?.children?.findIndex((item) => item.id === selectedFile) ?? -1
 
   const handleFolderClick = (folderId: string) => {
+    window.getSelection()?.removeAllRanges()
     setSelectedFolder(folderId)
     
     // In tablet mode, just select the folder - expansion/collapse is handled by FinderCollapsible
@@ -50,6 +53,7 @@ function FinderPortfolioContent() {
   }
 
   const handleFileClick = (fileId: string) => {
+    window.getSelection()?.removeAllRanges()
     // Find the folder that contains this file
     const parentFolder = portfolioContent.find(folder => 
       folder.children?.some(file => file.id === fileId)
@@ -128,6 +132,7 @@ function FinderPortfolioContent() {
             event.preventDefault()
             // Move to folder column
             if (activeColumn === 'file') {
+              window.getSelection()?.removeAllRanges()
               setActiveColumn('folder')
             }
             break
@@ -135,6 +140,7 @@ function FinderPortfolioContent() {
             event.preventDefault()
             // Move to file column (if files exist)
             if (activeColumn === 'folder' && currentFolder?.children && currentFolder.children.length > 0) {
+              window.getSelection()?.removeAllRanges()
               setActiveColumn('file')
               // If no file is selected, select the first one
               if (currentFileIndex < 0) {
@@ -170,6 +176,7 @@ function FinderPortfolioContent() {
       {isMobile ? (
         // Mobile Layout - Simple About Me content
         <div
+          ref={linecoveRef}
           className="min-h-screen p-6"
           style={{ backgroundColor: theme.background }}
         >
@@ -195,6 +202,7 @@ function FinderPortfolioContent() {
       ) : (
         // Desktop/Tablet Layout - Finder Interface
         <div
+          ref={linecoveRef}
           className="min-h-screen flex items-center justify-center p-8"
           style={{ backgroundColor: theme.background }}
         >

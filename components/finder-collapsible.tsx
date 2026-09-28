@@ -5,6 +5,7 @@ import { FinderButton } from "./finder-button"
 import { useTheme } from "../context/theme-context"
 import { useIsTablet } from "../hooks/use-mobile"
 import type { FileSystemItem } from "../types/content"
+import { useLinecove } from "./linecove-selection"
 
 interface FinderCollapsibleProps {
   folders: FileSystemItem[]
@@ -25,6 +26,7 @@ export function FinderCollapsible({
 }: FinderCollapsibleProps) {
   const { theme } = useTheme()
   const isTablet = useIsTablet()
+  const linecoveRef = useLinecove<HTMLDivElement>()
   const [expandedFolders, setExpandedFolders] = useState<Set<string>>(new Set([selectedFolder]))
 
   // Ensure selected folder is always expanded (only in desktop mode)
@@ -136,7 +138,7 @@ export function FinderCollapsible({
   const selectedBackground = getSelectedBackground()
 
   return (
-    <div className="w-60 flex-shrink-0 border-r" style={styles}>
+    <div ref={linecoveRef} className="w-60 flex-shrink-0 border-r" style={styles}>
       <div className="p-3 max-h-full overflow-y-auto relative scrollbar-hide">
         {/* Selected background */}
         {fallbackSelectedIndex >= 0 && (

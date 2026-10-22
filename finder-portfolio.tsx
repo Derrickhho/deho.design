@@ -11,7 +11,8 @@ import { FinderCollapsible } from "./components/finder-collapsible"
 import { ThemeProvider, useTheme } from "./context/theme-context"
 import { portfolioContent, getContentById } from "./content/load-portfolio"
 import { ErrorBoundary } from "./components/error-boundary"
-import { useIsTablet, useIsMobile } from "./hooks/use-mobile"
+import { BreakpointEnter } from "./components/breakpoint-enter"
+import { useBreakpoint } from "./hooks/use-mobile"
 import { FlexibleContentRenderer } from "./components/flexible-content-renderer"
 import { Heading1, Body } from "./components/typography"
 import { useLinecove } from "./components/linecove-selection"
@@ -20,8 +21,18 @@ import type { FinderTheme } from "./types/theme"
 
 function FinderPortfolioContent() {
   const { theme } = useTheme()
-  const isTablet = useIsTablet()
-  const isMobile = useIsMobile()
+  const breakpoint = useBreakpoint()
+  const isTablet = breakpoint === "tablet"
+  const isMobile = breakpoint === "mobile"
+  const layout = breakpoint ?? "desktop"
+  // Only animate breakpoint changes after the first client measurement,
+  // otherwise the page would animate on load.
+  const [animateBreakpoints, setAnimateBreakpoints] = useState(false)
+  useEffect(() => {
+    if (!breakpoint || animateBreakpoints) return
+    const frame = requestAnimationFrame(() => setAnimateBreakpoints(true))
+    return () => cancelAnimationFrame(frame)
+  }, [breakpoint, animateBreakpoints])
   const linecoveRef = useLinecove<HTMLDivElement>()
   const [selectedFolder, setSelectedFolder] = useState<string>("info")
   const [selectedFile, setSelectedFile] = useState<string>("about-me")
@@ -176,11 +187,12 @@ function FinderPortfolioContent() {
       {isMobile ? (
         // Mobile Layout - Simple About Me content
         <div
+          key="mobile"
           ref={linecoveRef}
           className="min-h-screen p-6"
           style={{ backgroundColor: theme.background }}
         >
-          <div className="max-w-md mx-auto">
+          <BreakpointEnter animate={animateBreakpoints} className="max-w-md mx-auto">
             <FinderHeader title="Derrick Ho" padding="py-3 px-0" />
             
             {/* Dotted divider */}
@@ -197,19 +209,24 @@ function FinderPortfolioContent() {
                 <FlexibleContentRenderer content={contactMeContent} />
               </div>
             )}
-          </div>
+          </BreakpointEnter>
         </div>
       ) : (
         // Desktop/Tablet Layout - Finder Interface
         <div
+          key="finder"
           ref={linecoveRef}
           className="min-h-screen flex items-center justify-center p-8"
           style={{ backgroundColor: theme.background }}
         >
-          <div className={isTablet ? "w-[640px]" : "w-[880px]"}>
+          <BreakpointEnter
+            animate={animateBreakpoints}
+            className={`${isTablet ? "w-[640px]" : "w-[880px]"} ${animateBreakpoints ? "breakpoint-resize" : ""}`}
+          >
             <FinderHeader title="Derrick Ho" />
 
             <FinderWindow>
+              <BreakpointEnter key={layout} animate={animateBreakpoints} className="flex flex-1 min-w-0 h-full flex-nowrap">
               {isTablet ? (
                 // Tablet Layout - Collapsible Folders + Content
                 <>
@@ -284,8 +301,9 @@ function FinderPortfolioContent() {
                   />
                 </>
               )}
+              </BreakpointEnter>
             </FinderWindow>
-          </div>
+          </BreakpointEnter>
         </div>
       )}
     </ErrorBoundary>

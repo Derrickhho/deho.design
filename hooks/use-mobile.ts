@@ -19,6 +19,31 @@ export function useIsMobile() {
   return !!isMobile
 }
 
+export type Breakpoint = "mobile" | "tablet" | "desktop"
+
+function getBreakpoint(): Breakpoint {
+  const width = window.innerWidth
+  if (width < MOBILE_BREAKPOINT) return "mobile"
+  if (width < TABLET_BREAKPOINT) return "tablet"
+  return "desktop"
+}
+
+// Returns undefined until measured on the client, so callers can tell the
+// initial measurement apart from a later resize across a breakpoint.
+export function useBreakpoint() {
+  const [breakpoint, setBreakpoint] = React.useState<Breakpoint | undefined>(undefined)
+
+  React.useEffect(() => {
+    const queries = [MOBILE_BREAKPOINT, TABLET_BREAKPOINT].map((bp) => window.matchMedia(`(min-width: ${bp}px)`))
+    const onChange = () => setBreakpoint(getBreakpoint())
+    queries.forEach((mql) => mql.addEventListener("change", onChange))
+    onChange()
+    return () => queries.forEach((mql) => mql.removeEventListener("change", onChange))
+  }, [])
+
+  return breakpoint
+}
+
 export function useIsTablet() {
   const [isTablet, setIsTablet] = React.useState<boolean | undefined>(undefined)
 

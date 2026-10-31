@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import { useTheme } from "../context/theme-context"
 import { linkClassName } from "./link-styles"
 
 interface AppLinkProps {
@@ -8,21 +9,25 @@ interface AppLinkProps {
   // Renders an <a> when href is provided, otherwise a <button>.
   href?: string
   onClick?: () => void
-  // Text color variant. Blue for content links, white for breadcrumb-style nav.
+  // Text color variant. Blue for content links, title text color for breadcrumb-style nav.
   variant?: "blue" | "white"
   className?: string
 }
 
 export function AppLink({ children, href, onClick, variant = "blue", className = "" }: AppLinkProps) {
+  const { theme } = useTheme()
   const textClass =
     variant === "white"
-      ? "text-white"
-      : "text-blue-400 group-hover:text-blue-300 group-active:text-blue-300"
+      ? ""
+      : "text-blue-600 group-hover:text-blue-500 group-active:text-blue-500 dark:text-blue-400 dark:group-hover:text-blue-300 dark:group-active:text-blue-300"
 
   // Inherit font-size/line-height from context so inline links match the
   // paragraph they sit in and don't create gaps when text is selected.
   const content = (
-    <span className={`font-medium ${textClass}`}>
+    <span
+      className={`font-medium ${textClass}`}
+      style={variant === "white" ? { color: theme.content.titleText } : undefined}
+    >
       {children}
     </span>
   )

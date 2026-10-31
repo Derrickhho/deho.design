@@ -1,10 +1,18 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Analytics } from '@vercel/analytics/next'
 import { Inter } from 'next/font/google'
 import { GeistMono } from 'geist/font/mono'
+import { darkTheme, lightTheme } from '../theme/default-theme'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
+
+export const viewport: Viewport = {
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: lightTheme.background },
+    { media: '(prefers-color-scheme: dark)', color: darkTheme.background },
+  ],
+}
 
 export const metadata: Metadata = {
   title: 'deho.design',

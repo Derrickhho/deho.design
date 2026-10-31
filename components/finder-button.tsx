@@ -61,17 +61,20 @@ export function FinderButton({
     textColor = buttonTheme.default.text
   }
 
-  if (isHovered) {
-    textColor = "#ffffff"
+  // Rows on the blue selection keep their selected colors while hovered.
+  const isOnSelectionFill = isSelected && !isFileSelected
+
+  if (isHovered && !isOnSelectionFill) {
+    textColor = buttonTheme.default.hoverText
   }
 
-  // Selected rows get a slightly lighter icon; idle rows get a slightly darker one.
-  // Hover turns the icon white along with the label.
-  const iconColor = isHovered
-    ? "#ffffff"
-    : iconIsActive
-      ? "rgba(255, 255, 255, 0.92)"
-      : "rgba(255, 255, 255, 0.5)"
+  const iconColor = isOnSelectionFill
+    ? theme.icon.selected
+    : isHovered
+      ? theme.icon.hover
+      : isFileSelected
+        ? theme.icon.fileSelected
+        : theme.icon.default
 
   const styles = {
     backgroundColor: 'transparent', // Background is handled by parent animated overlays

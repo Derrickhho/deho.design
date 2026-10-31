@@ -61,7 +61,7 @@ export function FinderContent({ breadcrumbs, children, content, isEmpty = false,
                   {crumb.label}
                 </AppLink>
               ) : (
-                <span className="text-xs font-medium leading-none text-white">
+                <span className="text-xs font-medium leading-none" style={{ color: theme.content.titleText }}>
                   {crumb.label}
                 </span>
               )}

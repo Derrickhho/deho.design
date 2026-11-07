@@ -46,6 +46,7 @@ export const lightTheme: FinderTheme = {
     default: {
       background: "transparent",
       text: "#202020",
+      hoverText: "#000000",
       hover: "#EDEDED",
       active: "#D1D1D1",
     },
@@ -66,6 +67,7 @@ export const lightTheme: FinderTheme = {
     default: {
       background: "transparent",
       text: "#202020",
+      hoverText: "#000000",
       hover: "#EDEDED",
       active: "#D1D1D1",
     },
@@ -73,6 +75,12 @@ export const lightTheme: FinderTheme = {
       background: "#2D75E0",
       text: "#ffffff",
     },
+  },
+  icon: {
+    default: "rgba(0, 0, 0, 0.45)",
+    hover: "#000000",
+    selected: "rgba(255, 255, 255, 0.92)",
+    fileSelected: "rgba(0, 0, 0, 0.8)",
   },
   column: {
     background: "#ffffff",
@@ -132,6 +140,7 @@ export const darkTheme: FinderTheme = {
     default: {
       background: "transparent",
       text: "#b3b3b3",
+      hoverText: "#ffffff",
       hover: "#404040",
       active: "#505050",
     },
@@ -152,6 +161,7 @@ export const darkTheme: FinderTheme = {
     default: {
       background: "transparent",
       text: "#b3b3b3",
+      hoverText: "#ffffff",
       hover: "#404040",
       active: "#505050",
     },
@@ -159,6 +169,12 @@ export const darkTheme: FinderTheme = {
       background: "#007acc",
       text: "#ffffff",
     },
+  },
+  icon: {
+    default: "rgba(255, 255, 255, 0.5)",
+    hover: "#ffffff",
+    selected: "rgba(255, 255, 255, 0.92)",
+    fileSelected: "rgba(255, 255, 255, 0.92)",
   },
   column: {
     background: "#262626",

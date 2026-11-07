@@ -55,26 +55,24 @@ export function FinderContent({ breadcrumbs, children, content, isEmpty = false,
           className={`flex h-[44px] items-start px-3 pt-4 flex-shrink-0${enterClassName ? ` ${enterClassName}` : ""}`}
           style={{ borderBottom: `0.5px solid ${theme.column.border}` }}
         >
-          <div className="flex items-center">
-            {breadcrumbs.map((crumb, i) => (
-              <React.Fragment key={i}>
-                {i > 0 && (
-                  <span className="mx-1 text-xs leading-none" style={{ color: theme.content.mutedText }}>
-                    /
-                  </span>
-                )}
-                {crumb.onClick ? (
-                  <AppLink onClick={crumb.onClick} variant="white" className="text-xs">
-                    {crumb.label}
-                  </AppLink>
-                ) : (
-                  <span className="text-xs font-medium leading-none text-white">
-                    {crumb.label}
-                  </span>
-                )}
-              </React.Fragment>
-            ))}
-          </div>
+          {breadcrumbs.map((crumb, i) => (
+            <React.Fragment key={i}>
+              {i > 0 && (
+                <span className="mx-1 text-xs leading-none" style={{ color: theme.content.mutedText }}>
+                  /
+                </span>
+              )}
+              {crumb.onClick ? (
+                <AppLink onClick={crumb.onClick} variant="white" className="text-xs">
+                  {crumb.label}
+                </AppLink>
+              ) : (
+                <span className="text-xs font-medium leading-none" style={{ color: theme.content.titleText }}>
+                  {crumb.label}
+                </span>
+              )}
+            </React.Fragment>
+          ))}
         </div>
       )}
       <div className="p-3 overflow-y-auto flex-1 min-w-0 scrollbar-hide" style={{ color: theme.content.bodyText }}>

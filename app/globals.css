@@ -1,7 +1,16 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
-@custom-variant dark (&:is(.dark *));
+@custom-variant dark {
+  &:where([data-theme="dark"], [data-theme="dark"] *) {
+    @slot;
+  }
+  @media (prefers-color-scheme: dark) {
+    &:where(:not([data-theme="light"], [data-theme="light"] *)) {
+      @slot;
+    }
+  }
+}
 
 :root {
   --background: oklch(1 0 0);
@@ -127,7 +136,8 @@
 /* Match the canvas so rubber-band overscroll uses the same color. */
 html,
 body {
-  background-color: #0a0a0a;
+  color-scheme: light dark;
+  background-color: var(--finder-background);
 }
 
 /* Custom text selection colors - match the selected row blue */

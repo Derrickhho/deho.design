@@ -25,6 +25,7 @@ export interface FinderTheme {
     default: {
       background: string
       text: string
+      hoverText: string
       hover: string
       active: string
     }
@@ -45,6 +46,7 @@ export interface FinderTheme {
     default: {
       background: string
       text: string
+      hoverText: string
       hover: string
       active: string
     }
@@ -52,6 +54,12 @@ export interface FinderTheme {
       background: string
       text: string
     }
+  }
+  icon: {
+    default: string
+    hover: string
+    selected: string
+    fileSelected: string
   }
   column: {
     background: string

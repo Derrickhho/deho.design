@@ -78,6 +78,10 @@ function photoTrait(src: string) {
   return PHOTO_TRAITS[src] ?? { alt: "About me", position: "object-center", ratio: 1 }
 }
 
+function blockPhotoDrag(event: React.DragEvent<HTMLImageElement>) {
+  event.preventDefault()
+}
+
 function fadeGradient(direction: "to left" | "to right", color: string) {
   return `linear-gradient(${direction}, ${color} 0%, color-mix(in srgb, ${color} 40%, transparent) 42%, transparent 100%)`
 }
@@ -122,7 +126,9 @@ function PhotoGallery({ images, enterStep }: { images: string[]; enterStep?: num
       <img
         src={getImageUrl(src)}
         alt={photoTrait(src).alt}
-        className={`mb-3 h-40 w-full rounded-sm object-cover ${photoTrait(src).position}${motion}`}
+        draggable={false}
+        onDragStart={blockPhotoDrag}
+        className={`mb-3 h-40 w-full select-none rounded-sm object-cover [-webkit-user-drag:none] ${photoTrait(src).position}${motion}`}
         onError={() => {
           console.error('❌ Image failed to load:', src)
           console.error('Attempted URL:', getImageUrl(src))
@@ -149,7 +155,9 @@ function PhotoGallery({ images, enterStep }: { images: string[]; enterStep?: num
             key={src}
             src={getImageUrl(src)}
             alt={photoTrait(src).alt}
-            className={`h-full min-w-0 shrink-0 rounded-sm object-cover ${pairWidth(index)} ${photoTrait(src).position}`}
+            draggable={false}
+            onDragStart={blockPhotoDrag}
+            className={`h-full min-w-0 shrink-0 select-none rounded-sm object-cover [-webkit-user-drag:none] ${pairWidth(index)} ${photoTrait(src).position}`}
             onLoad={(event) => {
               const img = event.currentTarget
               const ratio = img.naturalWidth / img.naturalHeight
@@ -182,7 +190,9 @@ function PhotoGallery({ images, enterStep }: { images: string[]; enterStep?: num
             key={src}
             src={getImageUrl(src)}
             alt={photoTrait(src).alt}
-            className={`h-full w-[calc(var(--photo-ratio)*10rem)] shrink-0 rounded-sm object-cover ${photoTrait(src).position}`}
+            draggable={false}
+            onDragStart={blockPhotoDrag}
+            className={`h-full w-[calc(var(--photo-ratio)*10rem)] shrink-0 select-none rounded-sm object-cover [-webkit-user-drag:none] ${photoTrait(src).position}`}
             style={{ "--photo-ratio": ratios[index] || photoTrait(src).ratio } as React.CSSProperties}
             onLoad={(event) => {
               const img = event.currentTarget

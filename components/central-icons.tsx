@@ -27,7 +27,7 @@ interface AppIconProps {
 // the row is selected and darkens it otherwise. `isHovered` and `isSelected`
 // stay on the props for API compatibility and are intentionally not forwarded.
 function makeAppIcon(Icon: CentralIcon) {
-  return function AppIcon({ className = "", size = 16 }: AppIconProps) {
+  return function AppIcon({ className = "", size = 14 }: AppIconProps) {
     return <Icon className={className} size={size} />
   }
 }

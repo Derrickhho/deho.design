@@ -5,6 +5,7 @@ import { IconChevronRight, IconChevronBottom } from "@central-icons-react/round-
 import { useTheme } from "../context/theme-context"
 import { Typography } from "./typography"
 import { useIsTablet } from "../hooks/use-mobile"
+import { enterMotionClass } from "./enter-motion"
 
 interface FinderButtonProps {
   icon: React.ReactNode
@@ -20,6 +21,7 @@ interface FinderButtonProps {
   onToggleExpand?: () => void
   isExpanded?: boolean
   isDesktop?: boolean
+  enterStep?: number
 }
 
 export function FinderButton({ 
@@ -35,13 +37,14 @@ export function FinderButton({
   onMouseUp,
   onToggleExpand,
   isExpanded,
-  isDesktop = false
+  isDesktop = false,
+  enterStep
 }: FinderButtonProps) {
   const { theme } = useTheme()
   const isTablet = useIsTablet()
   const [isHovered, setIsHovered] = useState(false)
 
-  const baseClasses = "w-full h-9 flex items-center gap-2 pt-2 pr-2.5 pb-2 pl-3 text-left rounded-md select-none"
+  const baseClasses = "w-full h-8 flex items-center gap-2 pt-1.5 pr-2.5 pb-1.5 pl-3 text-left rounded-sm select-none"
 
   const buttonTheme = variant === "folder" ? theme.folderButton : theme.fileButton
   
@@ -90,6 +93,15 @@ export function FinderButton({
     onMouseLeave?.()
   }
 
+  const handlePointerDown = (event: React.PointerEvent<HTMLButtonElement>) => {
+    if (event.button !== 0) return
+    onMouseDown?.()
+  }
+
+  const handlePointerUp = () => {
+    onMouseUp?.()
+  }
+
   // Clone the icon to pass hover and selected states if it's a Lottie icon
   const iconElement = React.isValidElement(icon) 
     ? React.cloneElement(icon as any, {
@@ -98,32 +110,21 @@ export function FinderButton({
       })
     : icon
 
+  const enterClassName = enterMotionClass(enterStep, "duration-[400ms]")
+
   return (
     <button 
       onClick={onClick} 
-      className={baseClasses}
+      className={`${baseClasses}${enterClassName ? ` ${enterClassName}` : ""}`}
       style={styles}
-      onMouseLeave={handleMouseLeave}
-      onMouseEnter={handleMouseEnter}
-      onMouseDown={onMouseDown}
-      onMouseUp={onMouseUp}
+      onPointerLeave={handleMouseLeave}
+      onPointerEnter={handleMouseEnter}
+      onPointerDown={handlePointerDown}
+      onPointerUp={handlePointerUp}
+      onPointerCancel={handlePointerUp}
     >
-      {/* Left chevron for tablet expand/collapse */}
-      {onToggleExpand && (
-        <button
-          onClick={(e) => {
-            e.stopPropagation()
-            onToggleExpand()
-          }}
-          className="p-1 rounded"
-          style={{ color: textColor }}
-        >
-          <IconChevronBottom size={12} className={isExpanded ? 'rotate-180' : 'rotate-0'} />
-        </button>
-      )}
-      
       <div
-        className="flex size-4 shrink-0 items-center justify-center"
+        className="flex size-3.5 shrink-0 items-center justify-center"
         style={{ color: iconColor }}
       >
         {iconElement}
@@ -132,14 +133,28 @@ export function FinderButton({
         variant="button"
         color="inherit"
         className="min-w-0 flex-1 truncate"
-        fontWeight={isSelected || isFileSelected ? 450 : undefined}
+        fontWeight={400}
       >
         {children}
       </Typography>
+
+      {/* Collapse chevron sits at the end of the row */}
+      {onToggleExpand && (
+        <button
+          onClick={(e) => {
+            e.stopPropagation()
+            onToggleExpand()
+          }}
+          className="ml-auto shrink-0 p-1 rounded"
+          style={{ color: textColor }}
+        >
+          <IconChevronBottom size={12} className={isExpanded ? 'rotate-180' : 'rotate-0'} />
+        </button>
+      )}
       
       {/* Right chevron for desktop selection indicator */}
       {variant === "folder" && (isSelected || isFileSelected) && !onToggleExpand && (
-        <IconChevronRight size={12} className="ml-auto" style={{ color: textColor }} />
+        <IconChevronRight size={10} className="ml-auto" style={{ color: textColor }} />
       )}
     </button>
   )

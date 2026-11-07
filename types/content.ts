@@ -22,7 +22,9 @@ export type ContentBlock =
 
 export interface ThumbnailBlock {
   type: "thumbnail"
+  images?: string[]
   image?: string
+  imageLeft?: string
   dateRange?: string
   description: string
 }

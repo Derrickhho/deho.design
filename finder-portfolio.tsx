@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { FinderButton } from "./components/finder-button"
 import { FinderColumn } from "./components/finder-column"
 import { FinderWindow } from "./components/finder-window"
@@ -14,6 +14,7 @@ import { ErrorBoundary } from "./components/error-boundary"
 import { useIsTablet, useIsMobile } from "./hooks/use-mobile"
 import { FlexibleContentRenderer } from "./components/flexible-content-renderer"
 import { Heading1, Body } from "./components/typography"
+import { enterMotionClass } from "./components/enter-motion"
 import { useLinecove } from "./components/linecove-selection"
 import type { FinderTheme } from "./types/theme"
 
@@ -26,6 +27,21 @@ function FinderPortfolioContent() {
   const [selectedFolder, setSelectedFolder] = useState<string>("info")
   const [selectedFile, setSelectedFile] = useState<string>("about-me")
   const [activeColumn, setActiveColumn] = useState<'folder' | 'file'>('file')
+  const [enterColumns, setEnterColumns] = useState(true)
+  const initialSelection = useRef({ folder: selectedFolder, file: selectedFile })
+  const enterStopped = useRef(false)
+  if (
+    selectedFolder !== initialSelection.current.folder ||
+    selectedFile !== initialSelection.current.file
+  ) {
+    enterStopped.current = true
+  }
+  const showEnter = enterColumns && !enterStopped.current
+
+  useEffect(() => {
+    const id = window.setTimeout(() => setEnterColumns(false), 2000)
+    return () => window.clearTimeout(id)
+  }, [])
 
   const currentFolder = portfolioContent.find((item) => item.id === selectedFolder)
   const currentFile = currentFolder?.children?.find((item) => item.id === selectedFile)
@@ -206,7 +222,7 @@ function FinderPortfolioContent() {
           className="min-h-screen flex items-center justify-center p-8"
           style={{ backgroundColor: theme.background }}
         >
-          <div className={isTablet ? "w-[640px]" : "w-[880px]"}>
+          <div className={isTablet ? "w-[640px]" : "w-[809px]"}>
             <FinderHeader title="Derrick Ho" />
 
             <FinderWindow>
@@ -220,6 +236,7 @@ function FinderPortfolioContent() {
                     onFolderClick={handleFolderClick}
                     onFileClick={handleFileClick}
                     activeColumn={activeColumn}
+                    enter={showEnter}
                   />
                   <FinderContent
                     breadcrumbs={currentFile ? [
@@ -229,14 +246,15 @@ function FinderPortfolioContent() {
                     content={currentFile?.content}
                     isEmpty={!currentFile}
                     isTablet={true}
+                    enterStart={showEnter ? portfolioContent.length + (currentFolder?.children?.length ?? 0) + 1 : undefined}
                   />
                 </>
               ) : (
                 // Desktop Layout - Three Columns
                 <>
                   {/* Left Column - Folders */}
-                  <FinderColumn width="w-60" showBorder selectedIndex={selectedFolderIndex >= 0 ? selectedFolderIndex : undefined} variant="folder">
-                    {portfolioContent.map((item) => (
+                  <FinderColumn width="w-56" showBorder selectedIndex={selectedFolderIndex >= 0 ? selectedFolderIndex : undefined} variant="folder" highlightClassName={showEnter && selectedFolderIndex >= 0 ? enterMotionClass(selectedFolderIndex, "duration-[400ms]") : undefined}>
+                    {portfolioContent.map((item, index) => (
                       <FinderButton
                         key={item.id}
                         icon={selectedFolder === item.id ? item.selectedIcon || item.icon : item.icon}
@@ -245,6 +263,7 @@ function FinderPortfolioContent() {
                         onClick={() => handleFolderClick(item.id)}
                         variant="folder"
                         isDesktop={true}
+                        enterStep={showEnter ? index : undefined}
                       >
                         {item.name}
                       </FinderButton>
@@ -254,12 +273,13 @@ function FinderPortfolioContent() {
                   {/* Middle Column - Folder Contents */}
                   <FinderColumn 
                     key={`file-column-${selectedFolder}`}
-                    width="w-60" 
+                    width="w-56" 
                     showBorder 
                     selectedIndex={selectedFile && selectedFileIndex >= 0 ? selectedFileIndex : undefined} 
                     variant="file"
+                    highlightClassName={showEnter && selectedFileIndex >= 0 ? enterMotionClass(portfolioContent.length + selectedFileIndex, "duration-[400ms]") : undefined}
                   >
-                    {currentFolder?.children?.map((item) => (
+                    {currentFolder?.children?.map((item, index) => (
                       <FinderButton
                         key={item.id}
                         icon={item.icon}
@@ -267,6 +287,7 @@ function FinderPortfolioContent() {
                         onClick={() => handleFileClick(item.id)}
                         variant="file"
                         isDesktop={true}
+                        enterStep={showEnter ? portfolioContent.length + index : undefined}
                       >
                         {item.name}
                       </FinderButton>
@@ -281,6 +302,7 @@ function FinderPortfolioContent() {
                     ] : undefined}
                     content={activeColumn === 'file' ? currentFile?.content : undefined}
                     isEmpty={activeColumn === 'folder' || !currentFile}
+                    enterStart={showEnter ? portfolioContent.length + (currentFolder?.children?.length ?? 0) + 1 : undefined}
                   />
                 </>
               )}

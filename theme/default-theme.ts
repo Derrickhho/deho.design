@@ -7,7 +7,7 @@ export const lightTheme: FinderTheme = {
   headerText: "#828282",
   typography: {
     h1: {
-      fontSize: "24px",
+      fontSize: "16px",
       fontWeight: "400",
       lineHeight: "1.2",
     },
@@ -93,7 +93,7 @@ export const darkTheme: FinderTheme = {
   headerText: "#ffffff",
   typography: {
     h1: {
-      fontSize: "24px",
+      fontSize: "16px",
       fontWeight: "400",
       lineHeight: "1.2",
     },

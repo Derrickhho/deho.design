@@ -33,7 +33,7 @@ export const iconRegistry: Record<IconKey, AppIconComponent> = {
   code: CodeLottieIcon,
 }
 
-export function renderIcon(key: IconKey, size = 16): React.ReactElement {
+export function renderIcon(key: IconKey, size = 14): React.ReactElement {
   const Icon = iconRegistry[key]
   return <Icon size={size} />
 }

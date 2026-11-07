@@ -15,18 +15,17 @@
           "title": "It's me!",
           "blocks": [
             {
-              "type": "paragraph",
-              "content": "Currently designing at [Harvey](https://harvey.ai) in San Francisco. Previously learned about climate at [Watershed](https://watershed.com), launched from stealth at [Common Room](https://commonroom.io), shipped through GME and IPO at [Robinhood](https://robinhood.com), and designed Dropbox Paper and Sharing at [Dropbox](https://dropbox.com)."
+              "type": "thumbnail",
+              "images": ["/about-me-photo.jpg"],
+              "description": ""
             },
             {
-              "type": "list",
-              "items": [
-                { "content": "Harvey", "details": "2026 - Present" },
-                { "content": "Watershed", "details": "2023 - 2025" },
-                { "content": "Common Room (aq. Zoom)", "details": "2021 - 2023" },
-                { "content": "Robinhood", "details": "2020 - 2021" },
-                { "content": "Dropbox", "details": "2018 - 2020" }
-              ]
+              "type": "paragraph",
+              "content": "Currently designing at [Harvey](https://harvey.ai) in San Francisco."
+            },
+            {
+              "type": "paragraph",
+              "content": "Previously learned about climate at [Watershed](https://watershed.com), launched from stealth at [Common Room](https://commonroom.io), shipped through GME and IPO at [Robinhood](https://robinhood.com), and designed Dropbox Paper at [Dropbox](https://dropbox.com)."
             }
           ]
         }
@@ -82,7 +81,11 @@
             {
               "type": "thumbnail",
               "dateRange": "2026 - Present",
-              "description": "Building the Agent experience and learning a lot about the law."
+              "description": ""
+            },
+            {
+              "type": "paragraph",
+              "content": "Leading the Core Assistant and Agent team and learning a lot about the law."
             }
           ]
         }
@@ -98,7 +101,11 @@
             {
               "type": "thumbnail",
               "dateRange": "2023 - 2025",
-              "description": "Did some things to reduce our world's carbon emissions. Learned a lot about science, regulation, and AI."
+              "description": ""
+            },
+            {
+              "type": "paragraph",
+              "content": "Did some things to reduce our world's carbon emissions. Learned a lot about science, regulation, and AI."
             }
           ]
         }
@@ -114,7 +121,15 @@
             {
               "type": "thumbnail",
               "dateRange": "2021 - 2023",
-              "description": "Worked on a little bit of everything. Launched a product from zero to GA and learned a lot about B2B and the art of customer obsession."
+              "description": ""
+            },
+            {
+              "type": "paragraph",
+              "content": "Reunited with some Dropboxers and worked on a little bit of everything. Launched a product from zero to GA and learned a lot about B2B and the art of customer obsession."
+            },
+            {
+              "type": "paragraph",
+              "content": "Acquired by Zoom July 2026"
             }
           ]
         }
@@ -130,7 +145,11 @@
             {
               "type": "thumbnail",
               "dateRange": "2020 - 2021",
-              "description": "Worked on the onboarding experience through Gamestop and IPO."
+              "description": ""
+            },
+            {
+              "type": "paragraph",
+              "content": "Built out the Growth team as we scaled through Gamestop and an IPO"
             }
           ]
         }
@@ -146,7 +165,11 @@
             {
               "type": "thumbnail",
               "dateRange": "2018 - 2020",
-              "description": "Worked on The-Sharing-Experience™ and Dropbox Paper :'). Learned a lot and made a lot of lifelong friends."
+              "description": ""
+            },
+            {
+              "type": "paragraph",
+              "content": "Designed Dropbox Paper ;'). Learned a lot and made a lot of lifelong friends."
             }
           ]
         }
@@ -162,15 +185,20 @@
     "children": [
       {
         "id": "doodles",
-        "name": "Doodles",
+        "name": "Derrick.Doodles",
         "type": "file",
         "icon": "highlight",
         "content": {
-          "title": "Doodles",
+          "title": "Derrick.Doodles",
           "blocks": [
             {
               "type": "thumbnail",
-              "description": "Sometimes I like to draw."
+              "images": ["/doodle-forest.jpg", "/doodle-cake.jpg"],
+              "description": ""
+            },
+            {
+              "type": "paragraph",
+              "content": "Sometimes I like to draw."
             },
             {
               "type": "list",
@@ -192,15 +220,20 @@
       },
       {
         "id": "cantonese-taboo",
-        "name": "Cantonese taboo",
+        "name": "AiYa! (Cantonese taboo)",
         "type": "file",
         "icon": "translate",
         "content": {
-          "title": "Cantonese taboo",
+          "title": "AiYa! (Cantonese taboo)",
           "blocks": [
             {
               "type": "thumbnail",
-              "description": "Dabbled in print and made this game for learning Cantonese."
+              "images": ["/aiya-box.jpg", "/aiya-open.jpg", "/aiya-cards.jpg"],
+              "description": ""
+            },
+            {
+              "type": "paragraph",
+              "content": "Dabbled in print and made this game for learning Cantonese."
             },
             {
               "type": "list",
@@ -231,15 +264,15 @@
     "children": [
       {
         "id": "linecove",
-        "name": "linecove",
+        "name": "Linecove",
         "type": "file",
         "icon": "code",
         "content": {
-          "title": "linecove",
+          "title": "Linecove",
           "blocks": [
             {
-              "type": "thumbnail",
-              "description": "A library for rounding the corners on the highlight area when selecting text."
+              "type": "paragraph",
+              "content": "A library for rounding the corners on the highlight area when selecting text."
             },
             {
               "type": "list",

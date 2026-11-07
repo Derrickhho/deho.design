@@ -6,6 +6,7 @@ import { useTheme } from "../context/theme-context"
 import { useIsTablet } from "../hooks/use-mobile"
 import type { FileSystemItem } from "../types/content"
 import { useLinecove } from "./linecove-selection"
+import { enterMotionClass } from "./enter-motion"
 
 interface FinderCollapsibleProps {
   folders: FileSystemItem[]
@@ -14,6 +15,7 @@ interface FinderCollapsibleProps {
   onFolderClick: (folderId: string) => void
   onFileClick: (fileId: string) => void
   activeColumn: 'folder' | 'file'
+  enter?: boolean
 }
 
 export function FinderCollapsible({
@@ -22,7 +24,8 @@ export function FinderCollapsible({
   selectedFile,
   onFolderClick,
   onFileClick,
-  activeColumn
+  activeColumn,
+  enter = false
 }: FinderCollapsibleProps) {
   const { theme } = useTheme()
   const isTablet = useIsTablet()
@@ -89,7 +92,7 @@ export function FinderCollapsible({
   // Calculate the actual position of each item in the list
   const calculateItemPositions = () => {
     const positions: number[] = []
-    const buttonHeight = 36 // h-9 = 36px
+    const buttonHeight = 32 // h-8 = 32px
     const containerPadding = 12 // p-3 = 12px
     const verticalOffset = -0 // Move background up by 4px to align with button
     let currentPosition = containerPadding + verticalOffset
@@ -137,13 +140,28 @@ export function FinderCollapsible({
 
   const selectedBackground = getSelectedBackground()
 
+  const enterSteps = new Map<string, number>()
+  if (enter) {
+    let step = 0
+    folders.forEach((folder) => {
+      enterSteps.set(folder.id, step)
+      step += 1
+      if (expandedFolders.has(folder.id)) {
+        folder.children?.forEach((file) => {
+          enterSteps.set(`${folder.id}:${file.id}`, step)
+          step += 1
+        })
+      }
+    })
+  }
+
   return (
     <div ref={linecoveRef} className="w-60 flex-shrink-0 border-r" style={styles}>
       <div className="p-3 max-h-full overflow-y-auto relative scrollbar-hide">
         {/* Selected background */}
         {fallbackSelectedIndex >= 0 && (
           <div 
-            className="absolute left-3 right-3 h-9 rounded-md pointer-events-none"
+            className={`absolute left-3 right-3 h-8 rounded-sm pointer-events-none${enter ? ` ${enterMotionClass(fallbackSelectedIndex, "duration-[400ms]")}` : ""}`}
             style={{ 
               backgroundColor: selectedBackground,
               top: calculateItemPositions()[fallbackSelectedIndex] || 0,
@@ -154,7 +172,7 @@ export function FinderCollapsible({
         
         {/* Button content */}
         <div className="relative z-10">
-          {folders.map((folder, folderIndex) => {
+          {folders.map((folder) => {
             const isExpanded = expandedFolders.has(folder.id)
             const isSelected = selectedFolder === folder.id
             const hasChildren = folder.children && folder.children.length > 0
@@ -176,6 +194,7 @@ export function FinderCollapsible({
                       onToggleExpand={hasChildren ? () => toggleFolder(folder.id) : undefined}
                       isExpanded={isExpanded}
                       isDesktop={false}
+                      enterStep={enterSteps.get(folder.id)}
                     >
                       {folder.name}
                     </FinderButton>
@@ -199,6 +218,7 @@ export function FinderCollapsible({
                           }}
                           variant="file"
                           isDesktop={false}
+                          enterStep={enterSteps.get(`${folder.id}:${file.id}`)}
                         >
                           {file.name}
                         </FinderButton>

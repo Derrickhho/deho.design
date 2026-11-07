@@ -28,7 +28,9 @@ const listItemSchema = z.union([
 
 const thumbnailBlockSchema = z.object({
   type: z.literal("thumbnail"),
+  images: z.array(z.string()).optional(),
   image: z.string().optional(),
+  imageLeft: z.string().optional(),
   dateRange: z.string().optional(),
   description: z.string(),
 })

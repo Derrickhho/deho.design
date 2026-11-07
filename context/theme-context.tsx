@@ -1,8 +1,8 @@
 "use client"
 
 import type React from "react"
-import { createContext, useContext, useEffect } from "react"
-import { darkTheme } from "../theme/default-theme"
+import { createContext, useContext, useEffect, useState } from "react"
+import { darkTheme, lightTheme } from "../theme/default-theme"
 import type { FinderTheme } from "../types/theme"
 
 interface ThemeContextType {
@@ -18,7 +18,28 @@ interface ThemeProviderProps {
 }
 
 export function ThemeProvider({ children, theme: customTheme }: ThemeProviderProps) {
-  const theme = customTheme ? { ...darkTheme, ...customTheme } : darkTheme
+  const [isDark, setIsDark] = useState(true)
+  const baseTheme = isDark ? darkTheme : lightTheme
+  const theme = customTheme ? { ...baseTheme, ...customTheme } : baseTheme
+
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (!event.metaKey || event.altKey || event.ctrlKey || event.shiftKey) return
+      if (event.key !== "\\" && event.code !== "Backslash") return
+      const target = event.target
+      if (
+        target instanceof HTMLElement &&
+        (target.isContentEditable || target.tagName === "INPUT" || target.tagName === "TEXTAREA")
+      ) {
+        return
+      }
+      event.preventDefault()
+      setIsDark((dark) => !dark)
+    }
+
+    window.addEventListener("keydown", onKeyDown)
+    return () => window.removeEventListener("keydown", onKeyDown)
+  }, [])
 
   // Overscroll reveals the document background, so keep it matched to the canvas.
   useEffect(() => {
@@ -36,7 +57,7 @@ export function ThemeProvider({ children, theme: customTheme }: ThemeProviderPro
   }, [theme.background])
 
   return (
-    <ThemeContext.Provider value={{ theme, isDark: true }}>
+    <ThemeContext.Provider value={{ theme, isDark }}>
       {children}
     </ThemeContext.Provider>
   )

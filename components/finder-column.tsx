@@ -10,9 +10,10 @@ interface FinderColumnProps {
   showBorder?: boolean
   selectedIndex?: number
   variant?: "folder" | "file"
+  highlightClassName?: string
 }
 
-export function FinderColumn({ children, width = "w-60", showBorder = false, selectedIndex, variant = "folder" }: FinderColumnProps) {
+export function FinderColumn({ children, width = "w-60", showBorder = false, selectedIndex, variant = "folder", highlightClassName }: FinderColumnProps) {
   const { theme } = useTheme()
   const linecoveRef = useLinecove<HTMLDivElement>()
 
@@ -60,7 +61,7 @@ export function FinderColumn({ children, width = "w-60", showBorder = false, sel
   // Calculate selected position synchronously to prevent flash
   const getSelectedPosition = () => {
     if (selectedIndex !== undefined && selectedIndex !== null) {
-      const buttonHeight = 36 // h-9 = 36px
+      const buttonHeight = 32 // h-8 = 32px
       const buttonSpacing = 0 // space-y-0.5 = 2px
       const padding = 10 // p-2.5 = 10px
       return padding + (selectedIndex * (buttonHeight + buttonSpacing))
@@ -76,7 +77,7 @@ export function FinderColumn({ children, width = "w-60", showBorder = false, sel
         {/* Selected background */}
         {selectedIndex !== undefined && selectedIndex !== null && (
           <div 
-            className="absolute left-2.5 right-2.5 h-9 rounded-md pointer-events-none"
+            className={`absolute left-2.5 right-2.5 h-8 rounded-sm pointer-events-none${highlightClassName ? ` ${highlightClassName}` : ""}`}
             style={{ 
               backgroundColor: selectedBackground,
               top: selectedPosition,

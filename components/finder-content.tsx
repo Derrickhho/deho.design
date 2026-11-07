@@ -55,6 +55,7 @@ export function FinderContent({ breadcrumbs, children, content, isEmpty = false,
           className={`flex h-[44px] items-start px-3 pt-4 flex-shrink-0${enterClassName ? ` ${enterClassName}` : ""}`}
           style={{ borderBottom: `0.5px solid ${theme.column.border}` }}
         >
+          <div className="flex items-center">
           {breadcrumbs.map((crumb, i) => (
             <React.Fragment key={i}>
               {i > 0 && (
@@ -73,6 +74,7 @@ export function FinderContent({ breadcrumbs, children, content, isEmpty = false,
               )}
             </React.Fragment>
           ))}
+          </div>
         </div>
       )}
       <div className="p-3 overflow-y-auto flex-1 min-w-0 scrollbar-hide" style={{ color: theme.content.bodyText }}>

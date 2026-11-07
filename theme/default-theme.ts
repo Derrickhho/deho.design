@@ -3,7 +3,7 @@ import type { FinderTheme } from "../types/theme"
 export const lightTheme: FinderTheme = {
   background: "#f2f2f2",
   windowBackground: "#ffffff",
-  windowBorder: "#EDEDED",
+  windowBorder: "#E0E0E0",
   headerText: "#828282",
   typography: {
     h1: {
@@ -45,8 +45,8 @@ export const lightTheme: FinderTheme = {
   folderButton: {
     default: {
       background: "transparent",
-      text: "#202020",
-      hoverText: "#000000",
+      text: "#5C5C5C",
+      hoverText: "#2A2A2A",
       hover: "#EDEDED",
       active: "#D1D1D1",
     },
@@ -66,8 +66,8 @@ export const lightTheme: FinderTheme = {
   fileButton: {
     default: {
       background: "transparent",
-      text: "#202020",
-      hoverText: "#000000",
+      text: "#5C5C5C",
+      hoverText: "#2A2A2A",
       hover: "#EDEDED",
       active: "#D1D1D1",
     },
@@ -77,14 +77,14 @@ export const lightTheme: FinderTheme = {
     },
   },
   icon: {
-    default: "rgba(0, 0, 0, 0.45)",
-    hover: "#000000",
-    selected: "rgba(255, 255, 255, 0.92)",
-    fileSelected: "rgba(0, 0, 0, 0.8)",
+    default: "rgba(0, 0, 0, 0.3)",
+    hover: "rgba(0, 0, 0, 0.47)",
+    selected: "rgba(255, 255, 255, 1)",
+    fileSelected: "rgba(0, 0, 0, 0.47)",
   },
   column: {
     background: "#ffffff",
-    border: "#EDEDED",
+    border: "#E0E0E0",
   },
   content: {
     background: "#ffffff",

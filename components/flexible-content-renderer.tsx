@@ -1,6 +1,6 @@
 "use client"
 
-import { useLayoutEffect, useRef, useState, type React } from "react"
+import { useEffect, useLayoutEffect, useRef, useState, type React } from "react"
 import { useTheme } from "../context/theme-context"
 import { Typography } from "./typography"
 import { AppLink } from "./app-link"
@@ -82,6 +82,125 @@ function fadeGradient(direction: "to left" | "to right", color: string) {
   return `linear-gradient(${direction}, ${color} 0%, color-mix(in srgb, ${color} 40%, transparent) 42%, transparent 100%)`
 }
 
+const imageFiles = new Map<string, File>()
+const DRAG_PREVIEW_HEIGHT = 40
+const DRAG_PREVIEW_RADIUS = 8
+
+type PhotoDragPreview = {
+  ghost: HTMLCanvasElement
+  pill: HTMLDivElement
+  move: (event: DragEvent) => void
+}
+
+let photoDragPreview: PhotoDragPreview | null = null
+let photoDragEndListeners = false
+
+function endPhotoDrag() {
+  const preview = photoDragPreview
+  if (!preview) return
+  photoDragPreview = null
+  document.removeEventListener("dragover", preview.move)
+  preview.pill.remove()
+  preview.ghost.remove()
+}
+
+function listenForPhotoDragEnd() {
+  if (photoDragEndListeners) return
+  photoDragEndListeners = true
+  window.addEventListener("dragend", endPhotoDrag, true)
+  window.addEventListener("drop", endPhotoDrag, true)
+  window.addEventListener("pointerup", endPhotoDrag, true)
+  window.addEventListener("mouseup", endPhotoDrag, true)
+}
+
+function rememberImageFile(src: string) {
+  if (imageFiles.has(src)) return
+  const url = getImageUrl(src)
+  void fetch(url)
+    .then((response) => response.blob())
+    .then((blob) => {
+      const name = src.split("/").pop() || "photo.jpg"
+      imageFiles.set(src, new File([blob], name, { type: blob.type || "image/jpeg" }))
+    })
+    .catch(() => {})
+}
+
+function startPhotoDrag(event: React.DragEvent<HTMLImageElement>, src: string) {
+  const img = event.currentTarget
+  const file = imageFiles.get(src)
+  const url = new URL(getImageUrl(src), window.location.href).href
+  event.dataTransfer.effectAllowed = "copy"
+  if (file) event.dataTransfer.items.add(file)
+  event.dataTransfer.setData("text/uri-list", url)
+  event.dataTransfer.setData("text/plain", url)
+  if (file) event.dataTransfer.setData("DownloadURL", `${file.type}:${file.name}:${url}`)
+
+  const sourceWidth = img.naturalWidth || img.clientWidth || 1
+  const sourceHeight = img.naturalHeight || img.clientHeight || 1
+  const height = DRAG_PREVIEW_HEIGHT
+  const width = Math.max(1, Math.round(height * (sourceWidth / sourceHeight)))
+  const message = "why are you taking this photo?"
+  const gap = 8
+  const pillHeight = 20
+  const measure = document.createElement("canvas").getContext("2d")
+  measure!.font = "12px Inter, system-ui, sans-serif"
+  const pillWidth = Math.ceil(measure!.measureText(message).width) + 16
+  const ghost = document.createElement("canvas")
+  ghost.width = width
+  ghost.height = height
+  const ctx = ghost.getContext("2d")
+  if (ctx) {
+    const radius = Math.min(DRAG_PREVIEW_RADIUS, width / 2, height / 2)
+    ctx.beginPath()
+    ctx.roundRect(0, 0, width, height, radius)
+    ctx.clip()
+    ctx.drawImage(img, 0, 0, width, height)
+  }
+  ghost.style.position = "fixed"
+  ghost.style.left = "-1000px"
+  ghost.style.top = "0"
+  ghost.style.pointerEvents = "none"
+  document.body.appendChild(ghost)
+  event.dataTransfer.setDragImage(ghost, Math.round(width / 2), Math.round(height / 2))
+
+  const pill = document.createElement("div")
+  pill.textContent = message
+  pill.style.position = "fixed"
+  pill.style.zIndex = "2147483647"
+  pill.style.height = `${pillHeight}px`
+  pill.style.padding = "0 8px"
+  pill.style.borderRadius = "999px"
+  pill.style.background = "rgba(255, 255, 255, 0.82)"
+  pill.style.color = "#202020"
+  pill.style.font = "12px Inter, system-ui, sans-serif"
+  pill.style.display = "flex"
+  pill.style.alignItems = "center"
+  pill.style.whiteSpace = "nowrap"
+  pill.style.pointerEvents = "none"
+  document.body.appendChild(pill)
+  pill.animate(
+    [
+      { opacity: 0, transform: "translateY(12px)" },
+      { opacity: 1, transform: "translateY(0)" },
+    ],
+    { duration: 400, easing: "cubic-bezier(0.22, 1, 0.36, 1)", fill: "both" },
+  )
+
+  const place = (clientX: number, clientY: number) => {
+    pill.style.left = `${clientX - pillWidth / 2}px`
+    pill.style.top = `${clientY - height / 2 - gap - pillHeight}px`
+  }
+  place(event.clientX, event.clientY)
+  const move = (moveEvent: DragEvent) => {
+    if (moveEvent.clientX === 0 && moveEvent.clientY === 0) return
+    place(moveEvent.clientX, moveEvent.clientY)
+  }
+  endPhotoDrag()
+  photoDragPreview = { ghost, pill, move }
+  document.addEventListener("dragover", move)
+  listenForPhotoDragEnd()
+}
+
 function thumbnailImages(block: { images?: string[]; imageLeft?: string; image?: string }) {
   const listed = block.images?.length ? block.images : [block.imageLeft, block.image]
   return listed.filter((src): src is string => Boolean(src) && src !== "/placeholder.jpg")
@@ -116,13 +235,19 @@ function PhotoGallery({ images, enterStep }: { images: string[]; enterStep?: num
   const fadeColor = theme.content.background
   const motion = enterMotionClass(enterStep) ? ` ${enterMotionClass(enterStep)}` : ""
 
+  useEffect(() => {
+    images.forEach(rememberImageFile)
+  }, [images])
+
   if (images.length === 1) {
     const src = images[0]
     return (
       <img
         src={getImageUrl(src)}
         alt={photoTrait(src).alt}
-        className={`mb-3 h-40 w-full rounded-sm object-cover ${photoTrait(src).position}${motion}`}
+        draggable
+        onDragStart={(event) => startPhotoDrag(event, src)}
+        className={`mb-3 h-40 w-full select-none rounded-sm object-cover ${photoTrait(src).position}${motion}`}
         onError={() => {
           console.error('❌ Image failed to load:', src)
           console.error('Attempted URL:', getImageUrl(src))
@@ -149,7 +274,9 @@ function PhotoGallery({ images, enterStep }: { images: string[]; enterStep?: num
             key={src}
             src={getImageUrl(src)}
             alt={photoTrait(src).alt}
-            className={`h-full min-w-0 shrink-0 rounded-sm object-cover ${pairWidth(index)} ${photoTrait(src).position}`}
+            draggable
+            onDragStart={(event) => startPhotoDrag(event, src)}
+            className={`h-full min-w-0 shrink-0 select-none rounded-sm object-cover ${pairWidth(index)} ${photoTrait(src).position}`}
             onLoad={(event) => {
               const img = event.currentTarget
               const ratio = img.naturalWidth / img.naturalHeight
@@ -182,7 +309,9 @@ function PhotoGallery({ images, enterStep }: { images: string[]; enterStep?: num
             key={src}
             src={getImageUrl(src)}
             alt={photoTrait(src).alt}
-            className={`h-full w-[calc(var(--photo-ratio)*10rem)] shrink-0 rounded-sm object-cover ${photoTrait(src).position}`}
+            draggable
+            onDragStart={(event) => startPhotoDrag(event, src)}
+            className={`h-full w-[calc(var(--photo-ratio)*10rem)] shrink-0 select-none rounded-sm object-cover ${photoTrait(src).position}`}
             style={{ "--photo-ratio": ratios[index] || photoTrait(src).ratio } as React.CSSProperties}
             onLoad={(event) => {
               const img = event.currentTarget

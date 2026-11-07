@@ -140,15 +140,47 @@ body {
   background-color: var(--finder-background);
 }
 
-/* Custom text selection colors - match the selected row blue */
+/* Text selection. Light mode uses a pale blue; dark mode keeps the deeper blue. */
 ::selection {
+  background-color: #ADD6FF;
+  color: #202020;
+}
+
+::-moz-selection {
+  background-color: #ADD6FF;
+  color: #202020;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) ::selection {
+    background-color: #007acc;
+    color: #ffffff;
+  }
+
+  :root:not([data-theme="light"]) ::-moz-selection {
+    background-color: #007acc;
+    color: #ffffff;
+  }
+}
+
+html[data-theme="dark"] ::selection {
   background-color: #007acc;
   color: #ffffff;
 }
 
-::-moz-selection {
+html[data-theme="light"] ::selection {
+  background-color: #ADD6FF;
+  color: #202020;
+}
+
+html[data-theme="dark"] ::-moz-selection {
   background-color: #007acc;
   color: #ffffff;
+}
+
+html[data-theme="light"] ::-moz-selection {
+  background-color: #ADD6FF;
+  color: #202020;
 }
 
 /* Hide scrollbars but keep scrolling functionality */

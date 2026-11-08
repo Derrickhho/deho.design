@@ -264,7 +264,7 @@ function FinderPortfolioContent() {
                     <div key={label} className="flex items-baseline justify-between gap-4">
                       <Body color={theme.content.bodyText} lineHeight={1.2}>{label}</Body>
                       {url ? (
-                        <AppLink href={url} className="shrink-0 py-0 text-right text-xs leading-none">{details}</AppLink>
+                        <AppLink href={url} className="shrink-0 text-right text-[12px] leading-[1.2]">{details}</AppLink>
                       ) : (
                         <Body color={theme.content.bodyText} lineHeight={1.2} className="shrink-0 text-right">{details}</Body>
                       )}

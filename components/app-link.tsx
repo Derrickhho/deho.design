@@ -32,16 +32,20 @@ export function AppLink({ children, href, onClick, variant = "blue", className =
     </span>
   )
 
+  const linkStyle: React.CSSProperties = {
+    fontFamily: "Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+  }
+
   if (href) {
     return (
-      <a href={href} target="_blank" rel="noopener noreferrer" className={`${linkClassName} ${className}`}>
+      <a href={href} target="_blank" rel="noopener noreferrer" className={`${linkClassName} ${className}`} style={linkStyle}>
         {content}
       </a>
     )
   }
 
   return (
-    <button type="button" onClick={onClick} className={`${linkClassName} cursor-pointer ${className}`}>
+    <button type="button" onClick={onClick} className={`${linkClassName} cursor-pointer ${className}`} style={linkStyle}>
       {content}
     </button>
   )

@@ -14,10 +14,33 @@ import { ErrorBoundary } from "./components/error-boundary"
 import { useIsTablet, useIsMobile } from "./hooks/use-mobile"
 import { FlexibleContentRenderer } from "./components/flexible-content-renderer"
 import { Heading1, Body } from "./components/typography"
+import { AppLink } from "./components/app-link"
+import type { ContentData, FileSystemItem } from "./types/content"
 import { enterMotionClass } from "./components/enter-motion"
 import { useLinecove } from "./components/linecove-selection"
 import type { FinderTheme } from "./types/theme"
 
+
+function workDate(file: FileSystemItem) {
+  for (const block of file.content?.blocks ?? []) {
+    if (block.type === "thumbnail" && block.dateRange) return block.dateRange
+  }
+  return ""
+}
+
+function contactItems(content?: ContentData) {
+  return content?.blocks.flatMap((block) => (block.type === "list" ? block.items : [])) ?? []
+}
+
+function MobileSectionLabel({ label }: { label: string }) {
+  const { theme } = useTheme()
+  return (
+    <div className="flex items-center gap-3">
+      <Body color={theme.content.mutedText} fontWeight={500} className="shrink-0">{label}</Body>
+      <div className="h-px flex-1" style={{ backgroundColor: theme.column.border }} />
+    </div>
+  )
+}
 
 function FinderPortfolioContent() {
   const { theme } = useTheme()
@@ -52,20 +75,31 @@ function FinderPortfolioContent() {
   const selectedFolderIndex = portfolioContent.findIndex((item) => item.id === selectedFolder)
   const selectedFileIndex = currentFolder?.children?.findIndex((item) => item.id === selectedFile) ?? -1
 
-  const handleFolderClick = (folderId: string) => {
+  const handleFolderClick = (folderId: string, options?: { selectFirstFile?: boolean }) => {
     window.getSelection()?.removeAllRanges()
     setSelectedFolder(folderId)
-    
+    const folder = portfolioContent.find((item) => item.id === folderId)
+    const firstFile = folder?.children?.[0]
+
+    if (!isTablet && options?.selectFirstFile && firstFile) {
+      setSelectedFile(firstFile.id)
+      setActiveColumn('folder')
+      return
+    }
+
     // In tablet mode, just select the folder - expansion/collapse is handled by FinderCollapsible
     if (isTablet) {
-      // Don't automatically select the first file - let users click on files directly
       setSelectedFile("")
-      // Note: Folder expansion/collapse is handled by the button click in FinderCollapsible
     } else {
-      // Desktop mode: clear the selected file when switching folders
       setSelectedFile("")
       setActiveColumn('folder')
     }
+  }
+
+  const handleFileColumnEmptyClick = () => {
+    window.getSelection()?.removeAllRanges()
+    setSelectedFile("")
+    setActiveColumn("folder")
   }
 
   const handleFileClick = (fileId: string) => {
@@ -196,23 +230,49 @@ function FinderPortfolioContent() {
           className="min-h-screen p-6"
           style={{ backgroundColor: theme.background }}
         >
-          <div className="max-w-md mx-auto">
-            <FinderHeader title="Derrick Ho" padding="py-3 px-0" />
-            
-            {/* Dotted divider */}
-            <div className="border-t border-dashed border-gray-300 my-6" style={{ borderStyle: 'dashed', borderWidth: '1px 0 0 0', borderImage: 'repeating-linear-gradient(to right, #9ca3af 0, #9ca3af 2px, transparent 2px, transparent 4px) 1' }}></div>
-            
-            {aboutMeContent && (
-              <div className="space-y-6 mt-8" style={{ color: theme.content.bodyText }}>
-                <FlexibleContentRenderer content={aboutMeContent} />
+          <div className="max-w-md mx-auto flex flex-col gap-12">
+            <div>
+              <FinderHeader title="Derrick Ho" padding="pb-4 px-0" />
+
+              {aboutMeContent && (
+                <div className="[&_img]:rounded-xl [&>div>div:last-child]:pb-0" style={{ color: theme.content.bodyText }}>
+                  <FlexibleContentRenderer content={aboutMeContent} />
+                </div>
+              )}
+            </div>
+
+            <div>
+              <MobileSectionLabel label="Work" />
+              <div className="mt-4 space-y-0.5">
+                {portfolioContent.find((folder) => folder.id === "work")?.children?.map((file) => (
+                  <div key={file.id} className="flex items-baseline justify-between gap-4">
+                    <Body color={theme.content.bodyText} lineHeight={1.2}>{file.name}</Body>
+                    <Body color={theme.content.mutedText} lineHeight={1.2} className="shrink-0">{workDate(file)}</Body>
+                  </div>
+                ))}
               </div>
-            )}
-            
-            {contactMeContent && (
-              <div className="space-y-6" style={{ color: theme.content.bodyText }}>
-                <FlexibleContentRenderer content={contactMeContent} />
+            </div>
+
+            <div>
+              <MobileSectionLabel label="Contact me" />
+              <div className="mt-4 space-y-1">
+                {contactItems(contactMeContent).map((item) => {
+                  const label = "content" in item ? item.content : ""
+                  const details = "details" in item ? item.details : ""
+                  const url = "url" in item ? item.url : undefined
+                  return (
+                    <div key={label} className="flex items-baseline justify-between gap-4">
+                      <Body color={theme.content.bodyText} lineHeight={1.2}>{label}</Body>
+                      {url ? (
+                        <AppLink href={url} className="shrink-0 py-0 text-right text-xs leading-none">{details}</AppLink>
+                      ) : (
+                        <Body color={theme.content.bodyText} lineHeight={1.2} className="shrink-0 text-right">{details}</Body>
+                      )}
+                    </div>
+                  )
+                })}
               </div>
-            )}
+            </div>
           </div>
         </div>
       ) : (
@@ -260,7 +320,7 @@ function FinderPortfolioContent() {
                         icon={selectedFolder === item.id ? item.selectedIcon || item.icon : item.icon}
                         isSelected={selectedFolder === item.id && activeColumn === 'folder'}
                         isFileSelected={selectedFolder === item.id && activeColumn === 'file' && selectedFile !== ""}
-                        onClick={() => handleFolderClick(item.id)}
+                        onClick={() => handleFolderClick(item.id, { selectFirstFile: true })}
                         variant="folder"
                         isDesktop={true}
                         enterStep={showEnter ? index : undefined}
@@ -278,12 +338,14 @@ function FinderPortfolioContent() {
                     selectedIndex={selectedFile && selectedFileIndex >= 0 ? selectedFileIndex : undefined} 
                     variant="file"
                     highlightClassName={showEnter && selectedFileIndex >= 0 ? enterMotionClass(portfolioContent.length + selectedFileIndex, "duration-[400ms]") : undefined}
+                    onEmptyClick={handleFileColumnEmptyClick}
                   >
                     {currentFolder?.children?.map((item, index) => (
                       <FinderButton
                         key={item.id}
                         icon={item.icon}
                         isSelected={selectedFile === item.id && activeColumn === 'file'}
+                        isFileSelected={selectedFile === item.id && activeColumn === 'folder'}
                         onClick={() => handleFileClick(item.id)}
                         variant="file"
                         isDesktop={true}
@@ -296,12 +358,12 @@ function FinderPortfolioContent() {
 
                   {/* Right Column - File Content */}
                   <FinderContent
-                    breadcrumbs={activeColumn === 'file' && currentFile ? [
+                    breadcrumbs={currentFile ? [
                       ...(currentFolder ? [{ label: currentFolder.name, onClick: () => handleFolderClick(currentFolder.id) }] : []),
                       { label: currentFile.name, onClick: () => handleFileClick(currentFile.id) },
                     ] : undefined}
-                    content={activeColumn === 'file' ? currentFile?.content : undefined}
-                    isEmpty={activeColumn === 'folder' || !currentFile}
+                    content={currentFile?.content}
+                    isEmpty={!currentFile}
                     enterStart={showEnter ? portfolioContent.length + (currentFolder?.children?.length ?? 0) + 1 : undefined}
                   />
                 </>

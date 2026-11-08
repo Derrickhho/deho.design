@@ -58,6 +58,8 @@ export function FinderButton({
     } else {
       textColor = (theme.folderButton as any).fileSelected.text
     }
+  } else if (isFileSelected) {
+    textColor = (theme.folderButton as any).selectedDesktop.text
   } else if (isSelected) {
     textColor = buttonTheme.selected.text
   } else {

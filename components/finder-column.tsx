@@ -11,9 +11,10 @@ interface FinderColumnProps {
   selectedIndex?: number
   variant?: "folder" | "file"
   highlightClassName?: string
+  onEmptyClick?: () => void
 }
 
-export function FinderColumn({ children, width = "w-60", showBorder = false, selectedIndex, variant = "folder", highlightClassName }: FinderColumnProps) {
+export function FinderColumn({ children, width = "w-60", showBorder = false, selectedIndex, variant = "folder", highlightClassName, onEmptyClick }: FinderColumnProps) {
   const { theme } = useTheme()
   const linecoveRef = useLinecove<HTMLDivElement>()
 
@@ -37,25 +38,14 @@ export function FinderColumn({ children, width = "w-60", showBorder = false, sel
     }
   }
 
-  // Check if the selected index corresponds to a file-selected folder
-  const isFileSelectedFolder = () => {
-    if (variant !== "folder" || selectedIndex === undefined || selectedIndex === null) {
-      return false
-    }
-    
-    // Check if any child button has isFileSelected=true
-    const childrenArray = React.Children.toArray(children)
-    const selectedChild = childrenArray[selectedIndex]
-    
-    if (React.isValidElement(selectedChild)) {
-      return (selectedChild.props as any).isFileSelected === true
-    }
-    
-    return false
+  const selectedChildIsMuted = () => {
+    if (selectedIndex === undefined || selectedIndex === null) return false
+    const selectedChild = React.Children.toArray(children)[selectedIndex]
+    return React.isValidElement(selectedChild) && (selectedChild.props as { isFileSelected?: boolean }).isFileSelected === true
   }
 
-  const selectedBackground = isFileSelectedFolder() 
-    ? (theme.folderButton as any).selectedDesktop.background 
+  const selectedBackground = selectedChildIsMuted()
+    ? (theme.folderButton as { selectedDesktop: { background: string } }).selectedDesktop.background
     : getSelectedBackground()
 
   // Calculate selected position synchronously to prevent flash
@@ -72,7 +62,15 @@ export function FinderColumn({ children, width = "w-60", showBorder = false, sel
   const selectedPosition = getSelectedPosition()
 
   return (
-    <div ref={linecoveRef} className={`${width} flex-shrink-0 ${borderClass}`} style={styles}>
+    <div
+      ref={linecoveRef}
+      className={`${width} h-full flex-shrink-0 ${borderClass}`}
+      style={styles}
+      onClick={(event) => {
+        if ((event.target as HTMLElement).closest("button")) return
+        onEmptyClick?.()
+      }}
+    >
       <div className="p-2.5 space-y-0.5 relative w-full">
         {/* Selected background */}
         {selectedIndex !== undefined && selectedIndex !== null && (

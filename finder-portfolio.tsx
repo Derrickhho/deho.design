@@ -243,7 +243,7 @@ function FinderPortfolioContent() {
 
             <div>
               <MobileSectionLabel label="Work" />
-              <div className="mt-4 space-y-0.5">
+              <div className="mt-4 space-y-1">
                 {portfolioContent.find((folder) => folder.id === "work")?.children?.map((file) => (
                   <div key={file.id} className="flex items-baseline justify-between gap-4">
                     <Body color={theme.content.bodyText} lineHeight={1.2}>{file.name}</Body>

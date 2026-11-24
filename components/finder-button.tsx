@@ -189,8 +189,8 @@ export function FinderButton({
         </button>
       )}
       
-      {/* Right chevron for desktop selection indicator */}
-      {variant === "folder" && (isSelected || isFileSelected) && !onToggleExpand && (
+      {/* Right chevron for the selected folder, and a light one while hovered */}
+      {variant === "folder" && (isSelected || isFileSelected || isHovered) && !onToggleExpand && (
         <IconChevronRight size={10} className="ml-auto" style={{ color: textColor }} />
       )}
     </button>

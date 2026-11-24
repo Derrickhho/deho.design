@@ -168,7 +168,7 @@ export function FinderButton({
         variant="button"
         color="inherit"
         className="min-w-0 flex-1 truncate"
-        fontWeight={500}
+        fontWeight={450}
       >
         {children}
       </Typography>

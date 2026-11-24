@@ -19,6 +19,10 @@ import type { ContentData, FileSystemItem } from "./types/content"
 import { enterMotionClass } from "./components/enter-motion"
 import { useLinecove } from "./components/linecove-selection"
 import type { FinderTheme } from "./types/theme"
+import portfolioJson from "./content/portfolio.json"
+import { collectImagePaths } from "./lib/image-utils"
+
+const portfolioImages = collectImagePaths(portfolioJson)
 
 
 function workDate(file: FileSystemItem) {
@@ -64,6 +68,19 @@ function FinderPortfolioContent() {
   useEffect(() => {
     const id = window.setTimeout(() => setEnterColumns(false), 2000)
     return () => window.clearTimeout(id)
+  }, [])
+
+  useEffect(() => {
+    const images = portfolioImages.map((src) => {
+      const img = new Image()
+      img.decoding = "async"
+      img.src = src
+      void img.decode().catch(() => {})
+      return img
+    })
+    return () => {
+      for (const img of images) img.src = ""
+    }
   }, [])
 
   const currentFolder = portfolioContent.find((item) => item.id === selectedFolder)

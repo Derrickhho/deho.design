@@ -91,7 +91,7 @@ function thumbnailImages(block: { images?: string[]; imageLeft?: string; image?:
   return listed.filter((src): src is string => Boolean(src) && src !== "/placeholder.jpg")
 }
 
-function PhotoGallery({ images, enterStep }: { images: string[]; enterStep?: number }) {
+function PhotoGallery({ images }: { images: string[] }) {
   const { theme } = useTheme()
   const rowRef = useRef<HTMLDivElement>(null)
   const [ratios, setRatios] = useState<number[]>(() => images.map((src) => photoTrait(src).ratio))
@@ -118,7 +118,6 @@ function PhotoGallery({ images, enterStep }: { images: string[]; enterStep?: num
   }, [images.length])
 
   const fadeColor = theme.content.background
-  const motion = enterMotionClass(enterStep) ? ` ${enterMotionClass(enterStep)}` : ""
 
   if (images.length === 1) {
     const src = images[0]
@@ -128,7 +127,9 @@ function PhotoGallery({ images, enterStep }: { images: string[]; enterStep?: num
         alt={photoTrait(src).alt}
         draggable={false}
         onDragStart={blockPhotoDrag}
-        className={`mb-3 h-40 w-full select-none rounded-sm object-cover [-webkit-user-drag:none] ${photoTrait(src).position}${motion}`}
+        decoding="sync"
+        fetchPriority="high"
+        className={`mb-3 h-40 w-full select-none rounded-sm object-cover [-webkit-user-drag:none] ${photoTrait(src).position}`}
         onError={() => {
           console.error('❌ Image failed to load:', src)
           console.error('Attempted URL:', getImageUrl(src))
@@ -144,7 +145,7 @@ function PhotoGallery({ images, enterStep }: { images: string[]; enterStep?: num
         : "w-[calc(100%-0.5rem-var(--photo-ratio-0)*10rem*0.9)]"
     return (
       <div
-        className={`mb-3 flex h-40 w-full min-w-0 gap-2${motion}`}
+        className="mb-3 flex h-40 w-full min-w-0 gap-2"
         style={{
           "--photo-ratio-0": ratios[0] || photoTrait(images[0]).ratio,
           "--photo-ratio-1": ratios[1] || photoTrait(images[1]).ratio,
@@ -157,6 +158,8 @@ function PhotoGallery({ images, enterStep }: { images: string[]; enterStep?: num
             alt={photoTrait(src).alt}
             draggable={false}
             onDragStart={blockPhotoDrag}
+            decoding="sync"
+            fetchPriority="high"
             className={`h-full min-w-0 shrink-0 select-none rounded-sm object-cover [-webkit-user-drag:none] ${pairWidth(index)} ${photoTrait(src).position}`}
             onLoad={(event) => {
               const img = event.currentTarget
@@ -179,7 +182,7 @@ function PhotoGallery({ images, enterStep }: { images: string[]; enterStep?: num
   }
 
   return (
-    <div className={`relative mb-3 min-w-0 max-w-full${motion}`}>
+    <div className="relative mb-3 min-w-0 max-w-full">
       <div
         ref={rowRef}
         className="flex h-40 w-full min-w-0 gap-2 overflow-x-auto overscroll-x-contain scrollbar-hide"
@@ -192,6 +195,8 @@ function PhotoGallery({ images, enterStep }: { images: string[]; enterStep?: num
             alt={photoTrait(src).alt}
             draggable={false}
             onDragStart={blockPhotoDrag}
+            decoding="sync"
+            fetchPriority="high"
             className={`h-full w-[calc(var(--photo-ratio)*10rem)] shrink-0 select-none rounded-sm object-cover [-webkit-user-drag:none] ${photoTrait(src).position}`}
             style={{ "--photo-ratio": ratios[index] || photoTrait(src).ratio } as React.CSSProperties}
             onLoad={(event) => {
@@ -234,13 +239,13 @@ function ThumbnailBlockRenderer({ block, enterStart }: { block: any; enterStart?
   const hasImages = images.length > 0
   const hasDate = Boolean(block.dateRange)
   let step = enterStart
-  const imageStep = hasImages && step !== undefined ? step++ : undefined
+  if (hasImages && step !== undefined) step += 1
   const dateStep = hasDate && step !== undefined ? step++ : undefined
   const descriptionStep = block.description && step !== undefined ? step++ : undefined
 
   return (
     <div className="flex min-w-0 flex-col">
-      {hasImages ? <PhotoGallery key={images.join("|")} images={images} enterStep={imageStep} /> : null}
+      {hasImages ? <PhotoGallery key={images.join("|")} images={images} /> : null}
 
       {hasDate ? (
         <DateLine enterStep={dateStep} className={hasImages ? "pt-3" : undefined}>{block.dateRange}</DateLine>

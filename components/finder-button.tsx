@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useRef, useState } from "react"
 import { IconChevronRight, IconChevronBottom } from "@central-icons-react/round-outlined-radius-2-stroke-2"
 import { useTheme } from "../context/theme-context"
 import { Typography } from "./typography"
@@ -43,6 +43,7 @@ export function FinderButton({
   const { theme } = useTheme()
   const isTablet = useIsTablet()
   const [isHovered, setIsHovered] = useState(false)
+  const activatedOnPointerDown = useRef(false)
 
   const baseClasses = "w-full h-8 flex items-center gap-2 pt-1.5 pr-2.5 pb-1.5 pl-3 text-left rounded-sm select-none"
 
@@ -98,13 +99,42 @@ export function FinderButton({
     onMouseLeave?.()
   }
 
+  const isToggleTarget = (target: EventTarget | null) =>
+    target instanceof Element && Boolean(target.closest("[data-finder-toggle]"))
+
   const handlePointerDown = (event: React.PointerEvent<HTMLButtonElement>) => {
     if (event.button !== 0) return
     onMouseDown?.()
+    if (isToggleTarget(event.target)) return
+
+    activatedOnPointerDown.current = true
+    onClick()
+
+    const release = () => {
+      // Click is dispatched after pointerup in the same turn. Drop the guard
+      // on the next turn so a press that ends off the row cannot swallow a
+      // later keyboard activation.
+      window.setTimeout(() => {
+        activatedOnPointerDown.current = false
+      }, 0)
+      window.removeEventListener("pointerup", release)
+      window.removeEventListener("pointercancel", release)
+    }
+    window.addEventListener("pointerup", release)
+    window.addEventListener("pointercancel", release)
   }
 
   const handlePointerUp = () => {
     onMouseUp?.()
+  }
+
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (isToggleTarget(event.target)) return
+    if (activatedOnPointerDown.current) {
+      activatedOnPointerDown.current = false
+      return
+    }
+    onClick()
   }
 
   // Clone the icon to pass hover and selected states if it's a Lottie icon
@@ -119,7 +149,7 @@ export function FinderButton({
 
   return (
     <button 
-      onClick={onClick} 
+      onClick={handleClick}
       className={`${baseClasses}${enterClassName ? ` ${enterClassName}` : ""}`}
       style={styles}
       onPointerLeave={handleMouseLeave}
@@ -146,6 +176,8 @@ export function FinderButton({
       {/* Collapse chevron sits at the end of the row */}
       {onToggleExpand && (
         <button
+          type="button"
+          data-finder-toggle=""
           onClick={(e) => {
             e.stopPropagation()
             onToggleExpand()

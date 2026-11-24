@@ -189,9 +189,13 @@ export function FinderButton({
         </button>
       )}
       
-      {/* Right chevron for the selected folder, and a light one while hovered */}
+      {/* Right chevron for the selected folder, and a fainter one while hovered */}
       {variant === "folder" && (isSelected || isFileSelected || isHovered) && !onToggleExpand && (
-        <IconChevronRight size={10} className="ml-auto" style={{ color: textColor }} />
+        <IconChevronRight
+          size={10}
+          className="ml-auto"
+          style={{ color: isHovered && !isSelected && !isFileSelected ? theme.icon.default : textColor }}
+        />
       )}
     </button>
   )
